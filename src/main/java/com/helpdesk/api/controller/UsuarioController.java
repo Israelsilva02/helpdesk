@@ -4,6 +4,7 @@ import com.helpdesk.api.exception.BalcaoException;
 import com.helpdesk.api.exception.UsuarioException;
 import com.helpdesk.api.model.Usuario;
 import com.helpdesk.api.service.UsuarioService;
+import com.helpdesk.api.util.MessageConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
         Usuario usuario = usuarioService.getUsuarioById(id)
-                .orElseThrow(() -> new UsuarioException("Usuario não encontrado com id " + id));
+                .orElseThrow(() -> new UsuarioException(MessageConstants.USUARIO_NAO_ENCONTRADO_C0M_ID + id));
         return ResponseEntity.ok(usuario);
     }
 

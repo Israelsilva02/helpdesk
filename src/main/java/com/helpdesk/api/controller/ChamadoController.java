@@ -5,6 +5,7 @@ import com.helpdesk.api.exception.ChamadoException;
 import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.model.EstadoChamado;
 import com.helpdesk.api.service.ChamadoService;
+import com.helpdesk.api.util.MessageConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +39,7 @@ public class ChamadoController {
     @GetMapping("/{id}")
     public ResponseEntity<Chamado> getChamadoById(@PathVariable Long id) {
         Chamado chamado = chamadoService.getChamadoById(id)
-                .orElseThrow(() -> new ChamadoException("Chamado não encontrado com id " + id));
+                .orElseThrow(() -> new ChamadoException(MessageConstants.CHAMADO_NAO_ENCONTRADO_C0M_ID + id));
         return ResponseEntity.ok(chamado);
     }
 

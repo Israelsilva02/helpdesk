@@ -27,7 +27,7 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid input: " + ex.getBindingResult().toString());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(MessageConstants.ENTRADA_INVALIDA + ex.getBindingResult().toString());
     }
 
     @ExceptionHandler(BalcaoException.class)
