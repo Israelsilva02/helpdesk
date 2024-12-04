@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 @Service
 public interface BalcaoService {
-    Balcao createBalcaoAtendimento(Balcao balcao) throws BalcaoException;
+    Balcao createBalcaoAtendimento(Balcao balcao);
     List<Balcao> getAllBalcoes() throws BalcaoException;
     Optional<Balcao> getBalcaoById(Long id) throws BalcaoException;
     Balcao updateBalcao(Long id, Balcao updatedBalcao) throws BalcaoException;

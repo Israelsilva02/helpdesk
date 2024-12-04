@@ -23,7 +23,7 @@ public class BalcaoController {
     }
 
     @PostMapping
-    public ResponseEntity<Balcao> createBalcaoAtendimento(@RequestBody Balcao balcao) throws BalcaoException {
+    public ResponseEntity<Balcao> createBalcaoAtendimento(@RequestBody Balcao balcao)  {
         Balcao novoBalcao = balcaoService.createBalcaoAtendimento(balcao);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoBalcao);
     }

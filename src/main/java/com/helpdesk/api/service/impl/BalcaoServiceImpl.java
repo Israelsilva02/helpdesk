@@ -22,12 +22,12 @@ public class BalcaoServiceImpl implements BalcaoService {
     }
 
     @Override
-    public Balcao createBalcaoAtendimento(Balcao balcao) throws BalcaoException {
-        try {
+    public Balcao createBalcaoAtendimento(Balcao balcao) {
+//        try {
             return balcaoRepository.save(balcao);
-        } catch (Exception e) {
-            throw new BalcaoException(MessageConstants.OCORREU_UM_ERRO_AO_CRIAR_BALCAO, e);
-        }
+//        } catch (Exception e) {
+//            throw new BalcaoException(MessageConstants.OCORREU_UM_ERRO_AO_CRIAR_BALCAO, e);
+//        }
     }
 
     @Override

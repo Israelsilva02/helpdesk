@@ -1,6 +1,6 @@
 package com.helpdesk.api.exception;
 
-public class BalcaoException extends Exception {
+public class BalcaoException extends RuntimeException {
     public BalcaoException(String message) {
         super(message);
     }
