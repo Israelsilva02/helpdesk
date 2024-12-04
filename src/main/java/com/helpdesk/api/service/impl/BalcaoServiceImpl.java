@@ -22,7 +22,7 @@ public class BalcaoServiceImpl implements BalcaoService {
     }
 
     @Override
-    public Balcao createBalcao(Balcao balcao) throws BalcaoException {
+    public Balcao createBalcaoAtendimento(Balcao balcao) throws BalcaoException {
         try {
             return balcaoRepository.save(balcao);
         } catch (Exception e) {

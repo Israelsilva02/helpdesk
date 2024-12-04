@@ -5,10 +5,11 @@ import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.model.EstadoChamado;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public interface ChamadoService {
     Chamado createChamado(Chamado chamado) throws Exception;
     Page<Chamado> getChamadosByCustomerId(Long customerId, Pageable pageable);

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,7 +54,7 @@ public class ChamadoServiceImpl implements ChamadoService {
                 chamado.setEstadoChamado(EstadoChamado.ABERTO);
             }
 
-            chamado.setDataChamado(LocalDate.now());
+            chamado.setDataChamado(LocalDateTime.now());
             return chamadoRepository.save(chamado);
         } catch (Exception e) {
             throw new ChamadoException(MessageConstants.OCORREU_UM_ERRO_AO_CRIAR_O_CHAMADO, e);

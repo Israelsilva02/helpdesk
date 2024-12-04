@@ -1,4 +1,5 @@
 package com.helpdesk.api.security;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,16 +15,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/public/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .permitAll()
+                        .requestMatchers("/**").permitAll()
                 );
         return http.build();
     }
