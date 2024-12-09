@@ -1,10 +1,12 @@
 package com.helpdesk.api.controller;
 
-import com.helpdesk.api.exception.BalcaoException;
+import com.helpdesk.api.model.dto.UsuarioDTO;
 import com.helpdesk.api.exception.UsuarioException;
 import com.helpdesk.api.model.Usuario;
 import com.helpdesk.api.service.UsuarioService;
 import com.helpdesk.api.util.MessageConstants;
+import com.helpdesk.api.mapper.UsuarioMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,28 +26,34 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody UsuarioDTO UsuarioDTO) {
+        Usuario usuario = UsuarioMapper.toEntity(UsuarioDTO);
         Usuario novoUsuario = usuarioService.createUsuario(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
+        UsuarioDTO novoUsuarioDTO = UsuarioMapper.toDto(novoUsuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuarioDTO);
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> getAllUsuarios() {
+    public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() {
         List<Usuario> usuarios = usuarioService.getAllUsuarios();
-        return ResponseEntity.ok(usuarios);
+        List<UsuarioDTO> usuariosDto = UsuarioMapper.toDtoList(usuarios);
+        return ResponseEntity.ok(usuariosDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id) {
         Usuario usuario = usuarioService.getUsuarioById(id)
                 .orElseThrow(() -> new UsuarioException(MessageConstants.USUARIO_NAO_ENCONTRADO_C0M_ID + id));
-        return ResponseEntity.ok(usuario);
+        UsuarioDTO UsuarioDTO = UsuarioMapper.toDto(usuario);
+        return ResponseEntity.ok(UsuarioDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Usuario updatedUsuario) throws Exception {
+    public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable Long id, @RequestBody UsuarioDTO updatedUsuarioDTO){
+        Usuario updatedUsuario = UsuarioMapper.toEntity(updatedUsuarioDTO);
         Usuario usuarioAtualizado = usuarioService.updateUsuario(id, updatedUsuario);
-        return ResponseEntity.ok(usuarioAtualizado);
+        UsuarioDTO UsuarioDTOAtualizado = UsuarioMapper.toDto(usuarioAtualizado);
+        return ResponseEntity.ok(UsuarioDTOAtualizado);
     }
 
     @DeleteMapping("/{id}")
