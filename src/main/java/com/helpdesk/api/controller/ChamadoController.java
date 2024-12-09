@@ -5,6 +5,7 @@ import com.helpdesk.api.exception.ChamadoException;
 import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.model.EstadoChamado;
 import com.helpdesk.api.service.ChamadoService;
+
 import com.helpdesk.api.util.MessageConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/chamados")
@@ -41,6 +44,12 @@ public class ChamadoController {
         Chamado chamado = chamadoService.getChamadoById(id)
                 .orElseThrow(() -> new ChamadoException(MessageConstants.CHAMADO_NAO_ENCONTRADO_C0M_ID + id));
         return ResponseEntity.ok(chamado);
+    }
+
+    @GetMapping("/estado/{estado}")
+    public ResponseEntity<List<Chamado>> getChamadosPorEstado(@PathVariable EstadoChamado estado) {
+        List<Chamado> chamados = chamadoService.getChamadosPorEstado(estado);
+        return ResponseEntity.ok(chamados);
     }
 
     @PutMapping("/{id}/estado")

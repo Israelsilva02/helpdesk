@@ -28,4 +28,5 @@ public class MessageConstants {
     public static final String OCORREU_UM_ERRO_AO_DELETAR_O_USUARIO_COM_ID = "An error occurred when deleting the user with ID";
     public static final String OCORREU_UM_ERRO_INESPERADO = "An unexpected error occurred";
     public static final String ENTRADA_INVALIDA = "Invalid input ";
+    public static final String NAO_FOI_POSSIVEL_ENCONTRAR_CHAMADO_POR_ESTADO = "Unable to find called by state";
 }
