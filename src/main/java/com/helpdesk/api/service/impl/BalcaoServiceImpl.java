@@ -23,62 +23,51 @@ public class BalcaoServiceImpl implements BalcaoService {
 
     @Override
     public Balcao createBalcaoAtendimento(Balcao balcao) {
-//        try {
+        if (balcao.getId() == null || balcaoRepository.findById(balcao.getId()).isEmpty()) {
             return balcaoRepository.save(balcao);
-//        } catch (Exception e) {
-//            throw new BalcaoException(MessageConstants.OCORREU_UM_ERRO_AO_CRIAR_BALCAO, e);
-//        }
+
+        }
+        throw new BalcaoException(MessageConstants.BALCAO_COM_ID_JA_EXISTE + balcao.getId());
     }
 
     @Override
-    public List<Balcao> getAllBalcoes() throws BalcaoException {
-        try {
-            return balcaoRepository.findAll();
-        } catch (Exception e) {
-            throw new BalcaoException(MessageConstants.OCORREU_UM_ERRO_AO_OBTER_TODOS_OS_BALCOES, e);
-        }
+    public List<Balcao> getAllBalcoes()  {
+        return balcaoRepository.findAll();
+
     }
 
     @Override
-    public Optional<Balcao> getBalcaoById(Long id) throws BalcaoException {
-        try {
-            Optional<Balcao> optionalBalcao = balcaoRepository.findById(id);
-            if (optionalBalcao.isPresent()) {
-                return optionalBalcao;
-            } else {
-                throw new BalcaoException(MessageConstants.BALCAO_NAO_ENCONTRADO_C0M_ID + id);
-            }
-        } catch (Exception e) {
-            throw new BalcaoException(MessageConstants.OCORREU_UM_ERRO_AO_OBTER_O_BALCAO_COM_ID + id, e);
+    public Optional<Balcao> getBalcaoById(Long id) {
+        Optional<Balcao> optionalBalcao = balcaoRepository.findById(id);
+        if (optionalBalcao.isPresent()) {
+            return optionalBalcao;
+        } else {
+            throw new BalcaoException(MessageConstants.BALCAO_NAO_ENCONTRADO_C0M_ID + id);
         }
+
     }
 
     @Override
-    public Balcao updateBalcao(Long id, Balcao updatedBalcao) throws BalcaoException {
-        try {
-            Optional<Balcao> optionalBalcao = balcaoRepository.findById(id);
-            if (optionalBalcao.isPresent()) {
-                Balcao balcaoExistente = optionalBalcao.get();
-                balcaoExistente.setNomeAtendente(updatedBalcao.getNomeAtendente());
-                return balcaoRepository.save(balcaoExistente);
-            } else {
-                throw new BalcaoException(MessageConstants.BALCAO_NAO_ENCONTRADO_C0M_ID + id);
-            }
-        } catch (Exception e) {
-            throw new BalcaoException(MessageConstants.OCORREU_UM_ERRO_AO_ATUALIZAR_O_BALCAO_COM_ID + id, e);
+    public Optional<Balcao> updateBalcao(Long id, Balcao updatedBalcao) {
+
+        Optional<Balcao> optionalBalcao = balcaoRepository.findById(id);
+        if (optionalBalcao.isPresent()) {
+
+            Balcao balcaoExistente = optionalBalcao.get();
+            balcaoExistente.setAtendente(updatedBalcao.getAtendente());
+            return Optional.of(balcaoRepository.save(balcaoExistente));
         }
+        return optionalBalcao;
+
     }
 
     @Override
-    public void deleteBalcao(Long id) throws BalcaoException {
-        try {
-            if (balcaoRepository.existsById(id)) {
-                balcaoRepository.deleteById(id);
-            } else {
-                throw new BalcaoException(MessageConstants.BALCAO_NAO_ENCONTRADO_C0M_ID + id);
-            }
-        } catch (Exception e) {
-            throw new BalcaoException(MessageConstants.OCORREU_UM_ERRO_AO_DELETAR_O_BALCAO_COM_ID + id, e);
+    public void deleteBalcao(Long id) {
+        Optional<Balcao> optionalBalcao = balcaoRepository.findById(id);
+        if (optionalBalcao.isEmpty()) {
+            throw new BalcaoException(MessageConstants.BALCAO_NAO_ENCONTRADO_C0M_ID + id);
         }
+        balcaoRepository.deleteById(id);
+
     }
 }

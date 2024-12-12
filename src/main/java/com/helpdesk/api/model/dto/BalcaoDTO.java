@@ -12,8 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BalcaoDTO {
-    private Long id;
-    private String nomeAtendente;
+
+
+    private Long idAtendente;
     private List<Long> chamadoIds;
 
 }

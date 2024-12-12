@@ -1,46 +1,34 @@
 package com.helpdesk.api.mapper;
 
-
-import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.model.Usuario;
 import com.helpdesk.api.model.dto.UsuarioDTO;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class UsuarioMapper {
+public class UsuarioMapper  {
 
-    public static UsuarioDTO toDto(Usuario usuario) {
-        if (usuario == null) {
-            return null;
-        }
-
-        return UsuarioDTO.builder()
-                .id(usuario.getId())
-                .nome(usuario.getNome())
-                .email(usuario.getEmail())
-                .chamadoIds(usuario.getChamados().stream()
-                        .map(Chamado::getId)
-                        .collect(Collectors.toList()))
-                .build();
-    }
-
-    public static Usuario toEntity(UsuarioDTO usuarioDto) {
-        if (usuarioDto == null) {
-            return null;
-        }
-
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioDto.getId());
-        usuario.setNome(usuarioDto.getNome());
-        usuario.setEmail(usuarioDto.getEmail());
-
-        return usuario;
-    }
-
-    public static List<UsuarioDTO> toDtoList(List<Usuario> usuarios) {
+    public static List<UsuarioDTO> toDtoUsuario(List<Usuario> usuarios) {
         return usuarios.stream()
-                .map(UsuarioMapper::toDto)
+                .map(entity->toDtoUsuarioDto(entity))
                 .collect(Collectors.toList());
+    }
+    public static UsuarioDTO toDtoUsuarioDto(Usuario usuario) {
+        if(Objects.nonNull(usuario)) {
+            return UsuarioDTO.builder()
+                    .nome(usuario.getNome())
+                    .email(usuario.getEmail())
+                    .build();
+        }else {
+            return UsuarioDTO.builder().build();
+        }
+    }
+    public static Usuario toEntityUsuario(UsuarioDTO usuarioDTO) {
+
+        return Usuario.builder()
+                .nome(usuarioDTO.getNome())
+                .email(usuarioDTO.getEmail())
+                .build();
     }
 }

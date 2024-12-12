@@ -1,5 +1,6 @@
 package com.helpdesk.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,16 +16,17 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name="tb_usuario")
-public class Usuario {
+public class Usuario  {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long customerId;
 
     private String nome;
-
     private String email;
 
     @OneToMany(mappedBy = "usuario")
+    @JsonIgnoreProperties("usuario")
     private List<Chamado> chamados = new ArrayList<>();
 
 }

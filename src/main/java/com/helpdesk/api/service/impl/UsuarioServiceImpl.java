@@ -22,68 +22,53 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario createUsuario(Usuario usuario) throws UsuarioException {
-        try {
+    public Usuario createUsuario(Usuario usuario) {
+        if (usuario.getCustomerId() == null || usuarioRepository.findById(usuario.getCustomerId()).isEmpty()) {
             return usuarioRepository.save(usuario);
-        } catch (Exception e) {
-            throw new UsuarioException(MessageConstants.OCORREU_UM_ERRO_AO_CRIAR_USUARIO, e);
+        }
+        throw new UsuarioException(MessageConstants.USUARIO_COM_ESSE_ID_JA_EXISTE + usuario.getCustomerId());
+    }
+
+
+    @Override
+    public List<Usuario> getAllUsuarios() {
+        return usuarioRepository.findAll();
+    }
+
+
+    @Override
+    public Optional<Usuario> getUsuarioById(Long id) {
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+        if (optionalUsuario.isPresent()) {
+            return optionalUsuario;
+        } else {
+            throw new UsuarioException(MessageConstants.USUARIO_NAO_ENCONTRADO_C0M_ID + id);
         }
     }
 
     @Override
-    public List<Usuario> getAllUsuarios() throws UsuarioException {
-        try {
-            return usuarioRepository.findAll();
-        } catch (Exception e) {
-            throw new UsuarioException(MessageConstants.OCORREU_UM_ERRO_AO_OBTER_TODOS_OS_USUARIOS, e);
+    public Optional<Usuario> updateUsuario(Long id, Usuario updatedUsuario)  {
+
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+
+        if (optionalUsuario.isPresent()) {
+            Usuario usuarioExistente = optionalUsuario.get();
+            usuarioExistente.setNome(updatedUsuario.getNome());
+            usuarioExistente.setEmail(updatedUsuario.getEmail());
+
+            return Optional.of(usuarioRepository.save(usuarioExistente));
         }
+        throw new UsuarioException(MessageConstants.USUARIO_NAO_ENCONTRADO_C0M_ID + id);
+
     }
 
-    @Override
-    public Optional<Usuario> getUsuarioById(Long id) throws UsuarioException {
-        try {
-            Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
-
-            if (optionalUsuario.isPresent()) {
-                return optionalUsuario;
-            } else {
-                throw new UsuarioException(MessageConstants.USUARIO_NAO_ENCONTRADO_C0M_ID + id);
-            }
-        } catch (Exception e) {
-            throw new UsuarioException(MessageConstants.OCORREU_UM_ERRO_AO_OBTER_O_USUARIO_C0M_ID + id, e);
-        }
-    }
 
     @Override
-    public Usuario updateUsuario(Long id, Usuario updatedUsuario) throws UsuarioException {
-        try {
-            Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
-
-            if (optionalUsuario.isPresent()) {
-                Usuario usuarioExistente = optionalUsuario.get();
-
-                usuarioExistente.setNome(updatedUsuario.getNome());
-                usuarioExistente.setEmail(updatedUsuario.getEmail());
-
-                return usuarioRepository.save(usuarioExistente);
-            } else {
-                throw new UsuarioException(MessageConstants.USUARIO_NAO_ENCONTRADO_C0M_ID + id);
-            }
-        } catch (Exception e) {
-            throw new UsuarioException(MessageConstants.OCORREU_UM_ERRO_AO_ATUALIZAR_O_USUARIO_COM_ID + id, e);
+    public void deleteUsuario(Long id) {
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+        if (optionalUsuario.isEmpty()) {
+            throw new UsuarioException(MessageConstants.USUARIO_NAO_ENCONTRADO_C0M_ID + id);
         }
-    }
-
-    @Override
-    public void deleteUsuario(Long id) throws UsuarioException {
-        try {
-            if (usuarioRepository.existsById(id)) {
-                usuarioRepository.deleteById(id);
-            } else {
-                throw new UsuarioException(MessageConstants.USUARIO_NAO_ENCONTRADO_C0M_ID + id);
-            }
-        } catch (Exception e) {
-            throw new UsuarioException(MessageConstants.OCORREU_UM_ERRO_AO_DELETAR_O_USUARIO_COM_ID + id, e);
-        }
+        usuarioRepository.deleteById(id);
     }
 }

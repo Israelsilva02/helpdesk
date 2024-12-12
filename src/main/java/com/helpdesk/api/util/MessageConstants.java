@@ -17,7 +17,9 @@ public class MessageConstants {
     public static final String OCORREU_UM_ERRO_AO_CRIAR_BALCAO = "An error occurred when creating balcao";
     public static final String OCORREU_UM_ERRO_AO_OBTER_TODOS_OS_BALCOES = "An error occurred when obtaining all balcoes";
     public static final String OCORREU_UM_ERRO_AO_OBTER_O_BALCAO_COM_ID = "An error occurred when obtaining the counter with ID ";
-    public static final String OCORREU_UM_ERRO_AO_DELETAR_O_BALCAO_COM_ID = "An error occurred when deleting the counter with ID ";
+
+    public static final String OCORREU_UM_ERRO_AO_DELETAR_O_BALCAO_COM_ID = "An error occurred when deleting the counter with ID, You cannot delete an attendant when it is linked to an existing call ";
+
     public static final String OCORREU_UM_ERRO_AO_CRIAR_O_CHAMADO = "An error occurred when creating the call";
     public static final String OCORREU_UM_ERRO_AO_OBTER_CHAMADOS_POR_CUSTOMER_ID = "An error occurred when obtaining calls by customer ID";
     public static final String OCORREU_UM_ERRO_AO_OBTER_CHAMADOS_POR_ESTADO = "An errror occured when obtaining all calls by STATE";
@@ -29,4 +31,6 @@ public class MessageConstants {
     public static final String OCORREU_UM_ERRO_INESPERADO = "An unexpected error occurred";
     public static final String ENTRADA_INVALIDA = "Invalid input ";
     public static final String NAO_FOI_POSSIVEL_ENCONTRAR_CHAMADO_POR_ESTADO = "Unable to find called by state";
+    public static final String BALCAO_COM_ID_JA_EXISTE = "Balcao com ID %s exists";
+    public static final String USUARIO_COM_ESSE_ID_JA_EXISTE = "Usuario com ID %s exists";
 }

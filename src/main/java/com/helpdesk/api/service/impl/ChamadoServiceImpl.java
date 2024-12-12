@@ -1,116 +1,70 @@
 package com.helpdesk.api.service.impl;
 
+
 import com.helpdesk.api.exception.ChamadoException;
-import com.helpdesk.api.model.Chamado;
-import com.helpdesk.api.model.EstadoChamado;
-import com.helpdesk.api.repositorio.BalcaoRepository;
+import com.helpdesk.api.model.*;
 import com.helpdesk.api.repositorio.ChamadoRepository;
 import com.helpdesk.api.service.ChamadoService;
 import com.helpdesk.api.util.MessageConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class ChamadoServiceImpl implements ChamadoService {
 
     private final ChamadoRepository chamadoRepository;
-    private final BalcaoRepository balcaoRepository;
 
-    @Autowired
-    public ChamadoServiceImpl(ChamadoRepository chamadoRepository, BalcaoRepository balcaoRepository) {
-        this.chamadoRepository = chamadoRepository;
-        this.balcaoRepository = balcaoRepository;
+    @Override
+    public Chamado createChamado(Chamado chamado) {
+        return chamadoRepository.save(chamado);
     }
 
     @Override
-    @Transactional
-    public Chamado createChamado(Chamado chamado) throws ChamadoException {
-        try {
-            List<Chamado> chamadosConflitantes = chamadoRepository.findByCustomerIdAndSerialNumberAndEstadoChamadoNot(
-                    chamado.getCustomerId(), chamado.getSerialNumber(), EstadoChamado.CONCLUIDO);
-
-            if (!chamadosConflitantes.isEmpty()) {
-                throw new ChamadoException(MessageConstants.UM_CHAMADO_JA_ESTA_ABERTO_PARA_ESTE_DISPOSIVO);
-            }
-
-            if (chamado.getBalcao() == null) {
-                throw new IllegalArgumentException(MessageConstants.BALCAO_NAO_PODE_SER_NULO);
-            }
-
-            List<Chamado> chamadosDoBalcao = chamadoRepository.findByBalcaoAndEstadoChamadoNot(
-                    chamado.getBalcao(), EstadoChamado.CONCLUIDO);
-
-            if (chamadosDoBalcao.size() >= 5) {
-                chamado.setEstadoChamado(EstadoChamado.EM_ESPERA);
-            } else {
-                chamado.setEstadoChamado(EstadoChamado.ABERTO);
-            }
-
-            chamado.setDataChamado(LocalDateTime.now());
-            return chamadoRepository.save(chamado);
-        } catch (Exception e) {
-            throw new ChamadoException(MessageConstants.OCORREU_UM_ERRO_AO_CRIAR_O_CHAMADO, e);
-        }
+    public List<Chamado> getAllChamados() {
+        return chamadoRepository.findAll();
     }
 
     @Override
-    public Page<Chamado> getChamadosByCustomerId(Long customerId, Pageable pageable) throws ChamadoException {
-        try {
-            return chamadoRepository.findAllByCustomerId(customerId, pageable);
-        } catch (Exception e) {
-            throw new ChamadoException(MessageConstants.OCORREU_UM_ERRO_AO_OBTER_CHAMADOS_POR_CUSTOMER_ID + customerId, e);
-        }
+    public List<Chamado> getChamadosPorEstado(EstadoChamado estado) {
+        return chamadoRepository.findByEstadoChamado(estado);
     }
 
     @Override
-    public List<Chamado> getChamadosPorEstado(EstadoChamado estado) throws ChamadoException {
-        try {
-            return chamadoRepository.findByEstadoChamado(estado);
-        } catch (Exception e) {
-            throw new ChamadoException(MessageConstants.OCORREU_UM_ERRO_AO_OBTER_CHAMADOS_POR_ESTADO + estado, e);
-        }
+    public Optional<Chamado> getChamadoById(Long id) {
+        return chamadoRepository.findById(id);
     }
 
     @Override
-    public Optional<Chamado> getChamadoById(Long id) throws ChamadoException {
-        try {
-            Optional<Chamado> optionalChamado = chamadoRepository.findById(id);
+    public Optional<Chamado> updateChamado(final Long id, final Chamado chamadoAtualizado) {
+        Balcao balcao = Balcao.builder().id(chamadoAtualizado.getBalcao().getId()).build();
+        Usuario usuario = Usuario.builder().customerId(chamadoAtualizado.getUsuario().getCustomerId()).build();
+        Equipamento equipamento = Equipamento.builder().deviceId(chamadoAtualizado.getEquipamento().getDeviceId()).build();
+        Optional<Chamado> chamado = chamadoRepository.findById(id);
+        if (chamado.isPresent()) {
+            Chamado chamadoEncontrado = chamado.get();
+            chamadoEncontrado.setUsuario(usuario);
+            chamadoEncontrado.setEquipamento(equipamento);
+            chamadoEncontrado.setBalcao(balcao);
+            chamadoEncontrado.setMotivoChamado(chamadoAtualizado.getMotivoChamado());
+            chamadoEncontrado.setEstadoChamado(chamadoAtualizado.getEstadoChamado());
+            chamadoEncontrado.setDataChamado(chamadoAtualizado.getDataChamado());
+            chamadoEncontrado.setDataResolucao(chamadoAtualizado.getDataResolucao());
 
-            if (optionalChamado.isPresent()) {
-                return optionalChamado;
-            } else {
-                throw new ChamadoException(MessageConstants.CHAMADO_NAO_ENCONTRADO_C0M_ID + id);
-            }
-        } catch (Exception e) {
-            throw new ChamadoException(MessageConstants.OCORREU_UM_ERRO_AO_OBTER_O_CHAMADO_C0M_ID + id, e);
+            return Optional.of(chamadoRepository.save(chamadoEncontrado));
         }
+        return chamado;
     }
 
     @Override
-    @Transactional
-    public Chamado updateEstadoChamado(Long id, EstadoChamado novoEstado) throws ChamadoException {
-        try {
-            Optional<Chamado> optionalChamado = chamadoRepository.findById(id);
-
-            if (optionalChamado.isPresent()) {
-                Chamado chamadoExistente = optionalChamado.get();
-
-                chamadoExistente.setEstadoChamado(novoEstado);
-
-                return chamadoRepository.save(chamadoExistente);
-            } else {
-                throw new ChamadoException(MessageConstants.CHAMADO_NAO_ENCONTRADO_C0M_ID + id);
-            }
-        } catch (Exception e) {
-            throw new ChamadoException(MessageConstants.OCORREU_UM_ERRO_AO_ATUALIZAR_O_ESTADO_DO_CHAMADO_C0M_ID + id, e);
+    public void deleteChamado(Long id) {
+        Optional<Chamado> chamado = chamadoRepository.findById(id);
+        if (chamado.isEmpty()) {
+            throw new ChamadoException(MessageConstants.CHAMADO_NAO_ENCONTRADO_C0M_ID + id);
         }
+        chamadoRepository.deleteById(id);
     }
 }

@@ -1,6 +1,5 @@
 package com.helpdesk.api.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,8 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.web.bind.annotation.Mapping;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -23,26 +22,31 @@ public class Chamado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long customerId;
-    private String serialNumber;
+
     @UpdateTimestamp
     private LocalDateTime dataChamado;
+
     @UpdateTimestamp
     private LocalDateTime dataResolucao;
 
     private String motivoChamado;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "estadoChamado")
     private EstadoChamado estadoChamado;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "balcao_id")
+    @JsonIgnoreProperties("chamado")
     private Balcao balcao;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-//    @JsonIgnoreProperties("chamado")
+    @JsonIgnoreProperties("chamado")
     private Usuario usuario;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "equipamento_id")
+    @JsonIgnoreProperties("chamado")
+    private Equipamento equipamento;
 }

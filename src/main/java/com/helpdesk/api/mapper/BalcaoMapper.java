@@ -1,44 +1,39 @@
 package com.helpdesk.api.mapper;
 
 
+import com.helpdesk.api.model.AtendenteBalcao;
 import com.helpdesk.api.model.Balcao;
 import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.model.dto.BalcaoDTO;
 
+
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class BalcaoMapper {
 
-    public static BalcaoDTO toDto(Balcao balcao) {
-        if (balcao == null) {
-            return null;
-        }
-
-        return BalcaoDTO.builder()
-                .id(balcao.getId())
-                .nomeAtendente(balcao.getNomeAtendente())
-                .chamadoIds(balcao.getChamados().stream()
-                        .map(Chamado::getId)
-                        .collect(Collectors.toList()))
-                .build();
-    }
-
-    public static Balcao toEntity(BalcaoDTO balcaoDto) {
-        if (balcaoDto == null) {
-            return null;
-        }
-
-        Balcao balcao = new Balcao();
-        balcao.setId(balcaoDto.getId());
-        balcao.setNomeAtendente(balcaoDto.getNomeAtendente());
-
-        return balcao;
-    }
-
-    public static List<BalcaoDTO> toDtoList(List<Balcao> balcoes) {
-        return balcoes.stream()
-                .map(BalcaoMapper::toDto)
+    public static List<BalcaoDTO> toDtoBalcao(List<Balcao> balcaoList) {
+        return balcaoList.stream()
+                .map(balcao -> toDtoBalcaoDto(balcao))
                 .collect(Collectors.toList());
+    }
+
+    public static BalcaoDTO toDtoBalcaoDto(Balcao balcao) {
+        if ((Objects.nonNull(balcao))) {
+            return BalcaoDTO.builder()
+                    .idAtendente(balcao.getAtendente().getId())
+                    .build();
+
+        } else {
+            return BalcaoDTO.builder().build();
+        }
+    }
+
+    public static Balcao toEntityBalcao(BalcaoDTO balcaoDTO) {
+        AtendenteBalcao atendenteBalcao = AtendenteBalcao.builder().id(balcaoDTO.getIdAtendente()).build();
+        return Balcao.builder()
+                .atendente(atendenteBalcao)
+                .build();
     }
 }

@@ -1,21 +1,23 @@
 package com.helpdesk.api.controller;
 
 import com.helpdesk.api.model.dto.ChamadoDTO;
-import com.helpdesk.api.exception.ChamadoException;
+
 import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.model.EstadoChamado;
 import com.helpdesk.api.service.ChamadoService;
-import com.helpdesk.api.util.MessageConstants;
+
 import com.helpdesk.api.mapper.ChamadoMapper;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
+import static com.helpdesk.api.mapper.ChamadoMapper.*;
 
 @RestController
 @RequestMapping("/api/chamados")
@@ -29,39 +31,44 @@ public class ChamadoController {
     }
 
     @PostMapping
-    public ResponseEntity<ChamadoDTO> createChamado(@RequestBody ChamadoDTO ChamadoDTO) throws Exception {
-        Chamado chamado = ChamadoMapper.toEntity(ChamadoDTO);
-        Chamado novoChamado = chamadoService.createChamado(chamado);
-        ChamadoDTO novoChamadoDTO = ChamadoMapper.toDto(novoChamado);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoChamadoDTO);
+    public ResponseEntity<?> createChamado(@Valid @RequestBody ChamadoDTO chamadoDTO) {
+        chamadoService.createChamado(toEntityChamado(chamadoDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
-    public ResponseEntity<Page<ChamadoDTO>> getChamadosByCustomerId(@RequestParam Long customerId, Pageable pageable) {
-        Page<Chamado> chamados = chamadoService.getChamadosByCustomerId(customerId, pageable);
-        Page<ChamadoDTO> chamadosDto = chamados.map(ChamadoMapper::toDto);
-        return ResponseEntity.ok(chamadosDto);
+    public ResponseEntity<List<ChamadoDTO>> getAllChamados() {
+        List<Chamado> chamados = chamadoService.getAllChamados();
+        return ResponseEntity.ok(toDtoChamado(chamados));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ChamadoDTO> getChamadoById(@PathVariable Long id) {
-        Chamado chamado = chamadoService.getChamadoById(id)
-                .orElseThrow(() -> new ChamadoException(MessageConstants.CHAMADO_NAO_ENCONTRADO_C0M_ID + id));
-        ChamadoDTO ChamadoDTO = ChamadoMapper.toDto(chamado);
-        return ResponseEntity.ok(ChamadoDTO);
+    public ResponseEntity<ChamadoDTO> getChamadoById(@Valid @PathVariable("id") Long id) {
+        Optional<Chamado> chamado = chamadoService.getChamadoById(id);
+        return chamado.map(value -> ResponseEntity.ok(toDtoChamadoDto(value))).orElseGet(ResponseEntity.notFound()::build);
     }
 
     @GetMapping("/estado/{estado}")
-    public ResponseEntity<List<ChamadoDTO>> getChamadosPorEstado(@PathVariable EstadoChamado estado) {
+    public ResponseEntity<List<Chamado>> getChamadosPorEstado(@PathVariable EstadoChamado estado) {
         List<Chamado> chamados = chamadoService.getChamadosPorEstado(estado);
-        List<ChamadoDTO> chamadosDto = ChamadoMapper.toDtoList(chamados);
-        return ResponseEntity.ok(chamadosDto);
+        return ResponseEntity.ok(chamados);
     }
 
-    @PutMapping("/{id}/estado")
-    public ResponseEntity<ChamadoDTO> updateEstadoChamado(@PathVariable Long id, @RequestBody EstadoChamado novoEstado) throws ChamadoException {
-        Chamado chamadoAtualizado = chamadoService.updateEstadoChamado(id, novoEstado);
-        ChamadoDTO ChamadoDTOAtualizado = ChamadoMapper.toDto(chamadoAtualizado);
-        return ResponseEntity.ok(ChamadoDTOAtualizado);
+    //    @PutMapping("/{id}/estado")
+//    public ResponseEntity<ChamadoDTO> updateEstadoChamado(@PathVariable Long id, @RequestBody EstadoChamado novoEstado) {
+//
+//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<ChamadoDTO> updateChamado(@PathVariable Long id, @RequestBody ChamadoDTO chamadoDTO) {
+        Optional<Chamado> updatedChamado = chamadoService.updateChamado(id, ChamadoMapper.toEntityChamado(chamadoDTO));
+
+        return updatedChamado.map(chamado -> ResponseEntity.ok(ChamadoMapper.toDtoChamadoDto(chamado))).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteChamado(@Valid @PathVariable("id") Long id) {
+        chamadoService.deleteChamado(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
