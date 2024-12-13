@@ -5,6 +5,7 @@ import com.helpdesk.api.model.AtendenteBalcao;
 import com.helpdesk.api.model.Balcao;
 import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.model.dto.BalcaoDTO;
+import org.springframework.web.bind.annotation.Mapping;
 
 
 import java.util.List;

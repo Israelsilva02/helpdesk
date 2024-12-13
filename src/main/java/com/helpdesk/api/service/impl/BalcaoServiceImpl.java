@@ -2,7 +2,7 @@ package com.helpdesk.api.service.impl;
 
 import com.helpdesk.api.exception.BalcaoException;
 import com.helpdesk.api.model.Balcao;
-import com.helpdesk.api.repositorio.BalcaoRepository;
+import com.helpdesk.api.repository.BalcaoRepository;
 import com.helpdesk.api.service.BalcaoService;
 import com.helpdesk.api.util.MessageConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class BalcaoServiceImpl implements BalcaoService {
     }
 
     @Override
-    public List<Balcao> getAllBalcoes()  {
+    public List<Balcao> getAllBalcoes() {
         return balcaoRepository.findAll();
 
     }

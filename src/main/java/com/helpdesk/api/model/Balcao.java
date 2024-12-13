@@ -1,8 +1,6 @@
 package com.helpdesk.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="tb_balcao")
+@Table(name = "tb_balcao")
 public class Balcao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

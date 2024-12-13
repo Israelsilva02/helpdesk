@@ -1,4 +1,4 @@
-package com.helpdesk.api.repositorio;
+package com.helpdesk.api.repository;
 
 import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.model.EstadoChamado;

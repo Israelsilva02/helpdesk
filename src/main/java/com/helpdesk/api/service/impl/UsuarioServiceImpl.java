@@ -2,7 +2,7 @@ package com.helpdesk.api.service.impl;
 
 import com.helpdesk.api.exception.UsuarioException;
 import com.helpdesk.api.model.Usuario;
-import com.helpdesk.api.repositorio.UsuarioRepository;
+import com.helpdesk.api.repository.UsuarioRepository;
 import com.helpdesk.api.service.UsuarioService;
 import com.helpdesk.api.util.MessageConstants;
 import org.springframework.beans.factory.annotation.Autowired;

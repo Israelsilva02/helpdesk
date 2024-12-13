@@ -3,7 +3,7 @@ package com.helpdesk.api.service.impl;
 
 import com.helpdesk.api.exception.ChamadoException;
 import com.helpdesk.api.model.*;
-import com.helpdesk.api.repositorio.ChamadoRepository;
+import com.helpdesk.api.repository.ChamadoRepository;
 import com.helpdesk.api.service.ChamadoService;
 import com.helpdesk.api.util.MessageConstants;
 import lombok.RequiredArgsConstructor;

@@ -13,10 +13,9 @@ import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.helpdesk.api.repositorio")
+@EnableJpaRepositories(basePackages = "com.helpdesk.api.repository")
 @EnableTransactionManagement
 public class DataBaseConfig {
 
