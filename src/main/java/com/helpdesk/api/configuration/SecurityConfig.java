@@ -1,4 +1,4 @@
-package com.helpdesk.api.security;
+package com.helpdesk.api.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

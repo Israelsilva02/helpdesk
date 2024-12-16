@@ -19,7 +19,7 @@ public class Balcao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "atendente_id")
     private AtendenteBalcao atendente;
 

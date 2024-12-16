@@ -13,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class BalcaoDTO {
 
-
     private Long idAtendente;
     private List<Long> chamadoIds;
 

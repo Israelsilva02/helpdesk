@@ -1,74 +1,58 @@
 package com.helpdesk.api.controller;
 
 import com.helpdesk.api.model.dto.ChamadoDTO;
-
-import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.model.EstadoChamado;
-import com.helpdesk.api.service.ChamadoService;
-
-import com.helpdesk.api.mapper.ChamadoMapper;
-
+import com.helpdesk.api.service.ChamadoServiceImpl;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-
-import static com.helpdesk.api.mapper.ChamadoMapper.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/chamados")
 public class ChamadoController {
 
-    private final ChamadoService chamadoService;
-
-    @Autowired
-    public ChamadoController(ChamadoService chamadoService) {
-        this.chamadoService = chamadoService;
-    }
+    private final ChamadoServiceImpl chamadoServiceImpl;
 
     @PostMapping
-    public ResponseEntity<?> createChamado(@Valid @RequestBody ChamadoDTO chamadoDTO) {
-        chamadoService.createChamado(toEntityChamado(chamadoDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ChamadoDTO> createChamado(@Valid @RequestBody ChamadoDTO chamadoDTO) {
+        ChamadoDTO createdChamado = chamadoServiceImpl.createChamado(chamadoDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdChamado);
     }
 
     @GetMapping
     public ResponseEntity<List<ChamadoDTO>> getAllChamados() {
-        List<Chamado> chamados = chamadoService.getAllChamados();
-        return ResponseEntity.ok(toDtoChamado(chamados));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ChamadoDTO> getChamadoById(@Valid @PathVariable("id") Long id) {
-        Optional<Chamado> chamado = chamadoService.getChamadoById(id);
-        return chamado.map(value -> ResponseEntity.ok(toDtoChamadoDto(value))).orElseGet(ResponseEntity.notFound()::build);
-    }
-
-    @GetMapping("/estado/{estado}")
-    public ResponseEntity<List<Chamado>> getChamadosPorEstado(@PathVariable EstadoChamado estado) {
-        List<Chamado> chamados = chamadoService.getChamadosPorEstado(estado);
+        List<ChamadoDTO> chamados = chamadoServiceImpl.getAllChamados();
         return ResponseEntity.ok(chamados);
     }
 
-    //    @PutMapping("/{id}/estado")
-//    public ResponseEntity<ChamadoDTO> updateEstadoChamado(@PathVariable Long id, @RequestBody EstadoChamado novoEstado) {
-//
-//    }
-    @PutMapping("/{id}")
-    public ResponseEntity<ChamadoDTO> updateChamado(@PathVariable Long id, @RequestBody ChamadoDTO chamadoDTO) {
-        Optional<Chamado> updatedChamado = chamadoService.updateChamado(id, ChamadoMapper.toEntityChamado(chamadoDTO));
-
-        return updatedChamado.map(chamado -> ResponseEntity.ok(ChamadoMapper.toDtoChamadoDto(chamado))).orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/{id}")
+    public ResponseEntity<ChamadoDTO> getChamadoById(@PathVariable("id") Long id) {
+        return chamadoServiceImpl.getChamadoById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteChamado(@Valid @PathVariable("id") Long id) {
-        chamadoService.deleteChamado(id);
+    @GetMapping("/estado/{estado}")
+    public ResponseEntity<List<ChamadoDTO>> getChamadosPorEstado(@PathVariable EstadoChamado estado) {
+        List<ChamadoDTO> chamados = chamadoServiceImpl.getChamadosPorEstado(estado);
+        return ResponseEntity.ok(chamados);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ChamadoDTO> updateChamado(@PathVariable("id") Long id, @Valid @RequestBody ChamadoDTO chamadoDTO) {
+        return chamadoServiceImpl.updateChamado(id, chamadoDTO)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteChamado(@PathVariable("id") Long id) {
+        chamadoServiceImpl.deleteChamado(id);
         return ResponseEntity.noContent().build();
     }
-
 }

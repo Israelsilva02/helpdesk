@@ -2,7 +2,7 @@ package com.helpdesk.api.util;
 
 public class MessageConstants {
 
-    public static final String BALCAO_NAO_ENCONTRADO_C0M_ID = "Balcao not found with id ";
+    public static final String BALCAO_NAO_ENCONTRADO_COM_ID = "Balcao not found with id ";
     public static final String OCORREU_UM_ERRO_AO_ATUALIZAR_O_BALCAO_COM_ID = "An error occurred while updating the Balcao with id ";
     public static final String CHAMADO_NAO_ENCONTRADO_C0M_ID = "Call not found with id ";
     public static final String OCORREU_UM_ERRO_AO_ATUALIZAR_O_ESTADO_DO_CHAMADO_C0M_ID = "An error occurred while updating the estado of Chamado with id ";
@@ -33,4 +33,5 @@ public class MessageConstants {
     public static final String NAO_FOI_POSSIVEL_ENCONTRAR_CHAMADO_POR_ESTADO = "Unable to find called by state";
     public static final String BALCAO_COM_ID_JA_EXISTE = "Balcao com ID %s exists";
     public static final String USUARIO_COM_ESSE_ID_JA_EXISTE = "Usuario com ID %s exists";
+    public static final String O_ATENDENTE_COMN_O_ID_CORRESPONDENTE_JA_EXISTE = "O atendente com ID %s exists";
 }

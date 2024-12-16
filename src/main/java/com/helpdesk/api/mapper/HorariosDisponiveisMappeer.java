@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class HorariosDisponiveisMappeer {
     public static List<HorariosDisponiveisDTO> toDtoHorariosDisponiveis(List<HorariosDisponiveis> horariosDisponiveis) {
         return horariosDisponiveis.stream()
-                .map(entity -> toDtoHorariosDisponiveisDto(entity))
+                .map(HorariosDisponiveisMappeer::toDtoHorariosDisponiveisDto)
                 .collect(Collectors.toList());
     }
     public static HorariosDisponiveisDTO  toDtoHorariosDisponiveisDto(HorariosDisponiveis horariosDisponiveis) {
