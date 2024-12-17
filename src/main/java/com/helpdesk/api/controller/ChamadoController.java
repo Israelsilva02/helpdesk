@@ -5,6 +5,7 @@ import com.helpdesk.api.model.EstadoChamado;
 import com.helpdesk.api.service.ChamadoServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ChamadoController {
 
     private final ChamadoServiceImpl chamadoServiceImpl;
+
 
     @PostMapping
     public ResponseEntity<ChamadoDTO> createChamado(@Valid @RequestBody ChamadoDTO chamadoDTO) {

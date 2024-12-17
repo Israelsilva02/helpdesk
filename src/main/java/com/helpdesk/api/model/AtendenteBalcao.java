@@ -19,7 +19,7 @@ public class AtendenteBalcao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nomeAtendente;
+    private String nome;
 
     @OneToMany(mappedBy = "atendente")
     private List<Balcao> balcaoList;

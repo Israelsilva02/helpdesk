@@ -1,6 +1,5 @@
 package com.helpdesk.api.controller;
 
-
 import com.helpdesk.api.model.dto.BalcaoDTO;
 import com.helpdesk.api.service.BalcaoServiceImpl;
 import jakarta.validation.Valid;
@@ -18,7 +17,6 @@ public class BalcaoController {
 
     private final BalcaoServiceImpl balcaoServiceImpl;
 
-
     @PostMapping
     public ResponseEntity<BalcaoDTO> createBalcaoAtendimento(@Valid @RequestBody BalcaoDTO balcaoDTO) {
         BalcaoDTO createBalcao = balcaoServiceImpl.createBalcaoAtendimento(balcaoDTO);
@@ -33,16 +31,14 @@ public class BalcaoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<BalcaoDTO> getBalcaoById(@PathVariable("id") Long id) {
-        return balcaoServiceImpl.getBalcaoById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        BalcaoDTO balcao = balcaoServiceImpl.getBalcaoById(id);
+        return ResponseEntity.ok(balcao);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<BalcaoDTO> updateBalcao(@PathVariable("id") Long id, @Valid @RequestBody BalcaoDTO updatedBalcaoDTO) {
-        return balcaoServiceImpl.updateBalcao(id, updatedBalcaoDTO)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        BalcaoDTO updatedBalcao = balcaoServiceImpl.updateBalcao(id, updatedBalcaoDTO);
+        return ResponseEntity.ok(updatedBalcao);
     }
 
     @DeleteMapping("/{id}")

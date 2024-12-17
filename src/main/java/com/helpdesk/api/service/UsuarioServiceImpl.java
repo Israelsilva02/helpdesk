@@ -4,6 +4,7 @@ import com.helpdesk.api.mapper.UsuarioMapper;
 import com.helpdesk.api.model.Usuario;
 import com.helpdesk.api.model.dto.UsuarioDTO;
 import com.helpdesk.api.repository.UsuarioRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +14,11 @@ import java.util.Optional;
 import static com.helpdesk.api.mapper.UsuarioMapper.*;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioServiceImpl{
 
     private final UsuarioRepository usuarioRepository;
 
-    @Autowired
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
-    }
     public UsuarioDTO createUsuario(UsuarioDTO usuarioDTO) {
         Usuario usuario = toEntityUsuario(usuarioDTO);
         Usuario savedUsuario = usuarioRepository.save(usuario);

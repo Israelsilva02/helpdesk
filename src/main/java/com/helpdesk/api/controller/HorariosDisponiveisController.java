@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/horariosDisponiveis")
 public class HorariosDisponiveisController {

@@ -8,24 +8,27 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class HorariosDisponiveisMappeer {
+public class HorariosDisponiveisMapper {
+
     public static List<HorariosDisponiveisDTO> toDtoHorariosDisponiveis(List<HorariosDisponiveis> horariosDisponiveis) {
         return horariosDisponiveis.stream()
-                .map(HorariosDisponiveisMappeer::toDtoHorariosDisponiveisDto)
+                .map(HorariosDisponiveisMapper::toDtoHorariosDisponiveisDto)
                 .collect(Collectors.toList());
     }
-    public static HorariosDisponiveisDTO  toDtoHorariosDisponiveisDto(HorariosDisponiveis horariosDisponiveis) {
+
+    public static HorariosDisponiveisDTO toDtoHorariosDisponiveisDto(HorariosDisponiveis horariosDisponiveis) {
         if (Objects.nonNull(horariosDisponiveis)) {
             return HorariosDisponiveisDTO.builder()
-                    .idAtendenteBalcao(horariosDisponiveis.getAtendenteBalcao().getId())
+                    .idAtendente(horariosDisponiveis.getAtendenteBalcao().getId())
                     .horariosDisponiveis(horariosDisponiveis.getHorariosDisponiveis())
                     .status(horariosDisponiveis.isStatus())
                     .build();
         }
         return null;
     }
+
     public static HorariosDisponiveis toEntityHorariosDisponiveis(HorariosDisponiveisDTO horariosDisponiveisDTO) {
-        AtendenteBalcao atendenteBalcao = AtendenteBalcao.builder().id(horariosDisponiveisDTO.getIdAtendenteBalcao()).build();
+        AtendenteBalcao atendenteBalcao = AtendenteBalcao.builder().id(horariosDisponiveisDTO.getIdAtendente()).build();
 
         return HorariosDisponiveis.builder()
                 .atendenteBalcao(atendenteBalcao)

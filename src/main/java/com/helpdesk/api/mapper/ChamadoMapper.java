@@ -1,7 +1,9 @@
 package com.helpdesk.api.mapper;
 
-
-import com.helpdesk.api.model.*;
+import com.helpdesk.api.model.Balcao;
+import com.helpdesk.api.model.Chamado;
+import com.helpdesk.api.model.Equipamento;
+import com.helpdesk.api.model.Usuario;
 import com.helpdesk.api.model.dto.ChamadoDTO;
 
 import java.util.List;
@@ -12,7 +14,7 @@ public class ChamadoMapper {
 
     public static List<ChamadoDTO> toDtoChamado(List<Chamado> chamados) {
         return chamados.stream()
-                .map(chamado -> toDtoChamadoDto(chamado))
+                .map(ChamadoMapper::toDtoChamadoDto)
                 .collect(Collectors.toList());
     }
 

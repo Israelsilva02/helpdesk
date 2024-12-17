@@ -5,16 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BalcaoDTO {
+public class AtendenteBalcaoDTO {
 
     private Long id;
-    private AtendenteBalcaoDTO atendente;
-    private List<Long> chamadoIds;
-
+    private String nome;
 }
