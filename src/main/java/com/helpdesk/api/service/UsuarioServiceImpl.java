@@ -1,11 +1,13 @@
 package com.helpdesk.api.service;
 
 import com.helpdesk.api.mapper.UsuarioMapper;
+import com.helpdesk.api.model.Balcao;
 import com.helpdesk.api.model.Usuario;
+import com.helpdesk.api.model.dto.BalcaoDTO;
 import com.helpdesk.api.model.dto.UsuarioDTO;
 import com.helpdesk.api.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import static com.helpdesk.api.mapper.UsuarioMapper.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UsuarioServiceImpl{
 
     private final UsuarioRepository usuarioRepository;

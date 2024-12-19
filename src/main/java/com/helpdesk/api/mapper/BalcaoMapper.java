@@ -21,9 +21,6 @@ public class BalcaoMapper {
             return BalcaoDTO.builder()
                     .id(balcao.getId())
                     .atendente(AtendenteBalcaoMapper.toDtoAtendenteDto(balcao.getAtendente()))
-                    .chamadoIds(balcao.getChamados().stream()
-                            .map(Chamado::getId)
-                            .collect(Collectors.toList()))
                     .build();
         }
         return null;

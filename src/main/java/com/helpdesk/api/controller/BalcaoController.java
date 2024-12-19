@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/balcoes")
+@RequiredArgsConstructor
 public class BalcaoController {
 
     private final BalcaoServiceImpl balcaoServiceImpl;

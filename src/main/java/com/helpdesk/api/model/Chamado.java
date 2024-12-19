@@ -1,22 +1,22 @@
 package com.helpdesk.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.helpdesk.api.enums.EstadoChamado;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.web.bind.annotation.Mapping;
 
 import java.time.LocalDateTime;
 
 
 @Builder
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Data
 @Table(name = "tb_chamado")
 public class Chamado {
     @Id
@@ -49,4 +49,18 @@ public class Chamado {
     @JoinColumn(name = "equipamento_id")
     @JsonIgnoreProperties("chamado")
     private Equipamento equipamento;
+
+    public void setBalcao(Balcao balcao) {
+        this.balcao = balcao;
+        if (balcao != null) balcao.addChamado(this);
+    }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+        if (usuario != null) usuario.addChamado(this);
+    }
+    public void setEquipamento(Equipamento equipamento) {
+        this.equipamento = equipamento;
+        if (equipamento != null) equipamento.addChamado(this);
+    }
+
 }

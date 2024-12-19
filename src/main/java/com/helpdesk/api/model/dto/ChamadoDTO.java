@@ -1,7 +1,7 @@
 package com.helpdesk.api.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.helpdesk.api.model.EstadoChamado;
+import com.helpdesk.api.enums.EstadoChamado;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

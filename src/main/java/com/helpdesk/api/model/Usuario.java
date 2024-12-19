@@ -1,6 +1,5 @@
 package com.helpdesk.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Builder
 @Data
@@ -25,8 +25,15 @@ public class Usuario  {
     private String nome;
     private String email;
 
-    @OneToMany(mappedBy = "usuario")
-    @JsonIgnoreProperties("usuario")
-    private List<Chamado> chamados = new ArrayList<>();
+    private static List<Chamado> chamados = new ArrayList<>();
 
+    public void addChamado(Chamado chamado) {
+        chamados.add(chamado);
+        chamado.setUsuario(this);
+    }
+
+    public void removeChamado(Chamado chamado) {
+        chamados.remove(chamado);
+        chamado.setUsuario(null);
+    }
 }

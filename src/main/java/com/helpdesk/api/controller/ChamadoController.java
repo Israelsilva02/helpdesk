@@ -1,11 +1,10 @@
 package com.helpdesk.api.controller;
 
 import com.helpdesk.api.model.dto.ChamadoDTO;
-import com.helpdesk.api.model.EstadoChamado;
+import com.helpdesk.api.enums.EstadoChamado;
 import com.helpdesk.api.service.ChamadoServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

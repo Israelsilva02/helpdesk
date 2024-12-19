@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,4 +31,12 @@ public class HorariosDisponiveis {
     private LocalDateTime horariosDisponiveis;
 
     private boolean status;
+
+    private static List<AtendenteBalcao> atendenteBalcaos = new ArrayList<>();
+
+    public void addAtendente(AtendenteBalcao atendenteBalcao) {
+        atendenteBalcaos.add(atendenteBalcao);
+        atendenteBalcao.setNome(atendenteBalcao.getNome());
+    }
+
 }

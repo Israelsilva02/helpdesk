@@ -1,14 +1,14 @@
 package com.helpdesk.api.service;
 
 import com.helpdesk.api.model.Chamado;
-import com.helpdesk.api.model.EstadoChamado;
+import com.helpdesk.api.enums.EstadoChamado;
 import com.helpdesk.api.model.dto.ChamadoDTO;
 import com.helpdesk.api.mapper.ChamadoMapper;
 import com.helpdesk.api.repository.ChamadoRepository;
 
 import com.helpdesk.api.util.MessageConstants;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +18,12 @@ import static com.helpdesk.api.mapper.ChamadoMapper.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ChamadoServiceImpl {
 
     private final ChamadoRepository chamadoRepository;
 
-      public ChamadoDTO createChamado(ChamadoDTO chamadoDTO) {
+    public ChamadoDTO createChamado(ChamadoDTO chamadoDTO) {
         Chamado chamado = toEntityChamado(chamadoDTO);
         Chamado savedChamado = chamadoRepository.save(chamado);
         return toDtoChamadoDto(savedChamado);

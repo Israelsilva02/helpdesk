@@ -5,6 +5,7 @@ import com.helpdesk.api.model.HorariosDisponiveis;
 import com.helpdesk.api.model.dto.HorariosDisponiveisDTO;
 import com.helpdesk.api.repository.HorariosDisponiveisRepository;
 import com.helpdesk.api.util.MessageConstants;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import static com.helpdesk.api.mapper.HorariosDisponiveisMapper.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class HorariosDisponiveisServiceImpl {
     private final HorariosDisponiveisRepository horariosDisponiveisRepository;
 
