@@ -3,9 +3,9 @@ package com.helpdesk.api.exception.handler;
 import com.helpdesk.api.exception.BalcaoException;
 import com.helpdesk.api.exception.ChamadoException;
 import com.helpdesk.api.exception.UsuarioException;
-import com.helpdesk.api.exception.NotFoundException;
 import com.helpdesk.api.exception.ValidationException;
 import com.helpdesk.api.util.MessageConstants;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,8 +17,8 @@ import java.sql.SQLException;
 @ControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<String> handleNotFoundException(NotFoundException ex) {
+    @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
+    public ResponseEntity<String> handleNotFoundException(ChangeSetPersister.NotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
     @ExceptionHandler(SQLException.class)

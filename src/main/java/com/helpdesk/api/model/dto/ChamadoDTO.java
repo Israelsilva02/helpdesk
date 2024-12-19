@@ -1,15 +1,14 @@
 package com.helpdesk.api.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.helpdesk.api.model.EstadoChamado;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.helpdesk.api.model.enums.EstadoChamado;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Builder
+@Getter
+@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

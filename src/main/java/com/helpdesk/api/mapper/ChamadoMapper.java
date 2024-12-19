@@ -1,52 +1,20 @@
 package com.helpdesk.api.mapper;
 
-import com.helpdesk.api.model.Balcao;
 import com.helpdesk.api.model.Chamado;
-import com.helpdesk.api.model.Equipamento;
-import com.helpdesk.api.model.Usuario;
 import com.helpdesk.api.model.dto.ChamadoDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+@Mapper(componentModel = "spring")
+public interface ChamadoMapper {
 
-public class ChamadoMapper {
+    @Mapping(source = "balcao.id", target = "balcaoId")
+    @Mapping(source = "usuario.customerId", target = "usuarioId")
+    @Mapping(source = "equipamento.deviceId", target = "equipamentoId")
+    ChamadoDTO chamadoToChamadoDTO(Chamado chamado);
 
-    public static List<ChamadoDTO> toDtoChamado(List<Chamado> chamados) {
-        return chamados.stream()
-                .map(ChamadoMapper::toDtoChamadoDto)
-                .collect(Collectors.toList());
-    }
-
-    public static ChamadoDTO toDtoChamadoDto(Chamado chamado) {
-        if (Objects.nonNull(chamado)) {
-            return ChamadoDTO.builder()
-                    .balcaoId(chamado.getBalcao().getId())
-                    .usuarioId(chamado.getUsuario().getCustomerId())
-                    .equipamentoId(chamado.getEquipamento().getDeviceId())
-                    .dataChamado(chamado.getDataChamado())
-                    .dataResolucao(chamado.getDataResolucao())
-                    .estadoChamado(chamado.getEstadoChamado())
-                    .motivoChamado(chamado.getMotivoChamado())
-                    .build();
-        }
-        return null;
-    }
-    public static Chamado toEntityChamado(ChamadoDTO chamadoDTO) {
-        Balcao balcao = Balcao.builder().id(chamadoDTO.getBalcaoId()).build();
-        Usuario usuario= Usuario.builder().customerId(chamadoDTO.getUsuarioId()).build();
-        Equipamento equipamento = Equipamento.builder().deviceId(chamadoDTO.getEquipamentoId()).build();
-
-        return Chamado.builder()
-                .balcao(balcao)
-                .usuario(usuario)
-                .equipamento(equipamento)
-                .dataChamado(chamadoDTO.getDataChamado())
-                .dataResolucao(chamadoDTO.getDataResolucao())
-                .estadoChamado(chamadoDTO.getEstadoChamado())
-                .motivoChamado(chamadoDTO.getMotivoChamado())
-                .build();
-
-
-    }
+    @Mapping(source = "balcaoId", target = "balcao.id")
+    @Mapping(source = "usuarioId", target = "usuario.customerId")
+    @Mapping(source = "equipamentoId", target = "equipamento.deviceId")
+    Chamado chamadoDTOToChamado(ChamadoDTO chamadoDTO);
 }

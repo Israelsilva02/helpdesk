@@ -19,7 +19,7 @@ public class BalcaoController {
 
     @PostMapping
     public ResponseEntity<BalcaoDTO> createBalcaoAtendimento(@Valid @RequestBody BalcaoDTO balcaoDTO) {
-        BalcaoDTO createBalcao = balcaoServiceImpl.createBalcaoAtendimento(balcaoDTO);
+        BalcaoDTO createBalcao = balcaoServiceImpl.create(balcaoDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createBalcao);
     }
 

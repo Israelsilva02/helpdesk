@@ -1,7 +1,7 @@
 package com.helpdesk.api.repository;
 
 import com.helpdesk.api.model.Chamado;
-import com.helpdesk.api.model.EstadoChamado;
+import com.helpdesk.api.model.enums.EstadoChamado;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

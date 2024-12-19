@@ -7,25 +7,23 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@Builder
+@Entity
+@Table(name = "tb_balcao")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "tb_balcao")
+@Builder
 public class Balcao {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "atendente_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "atendente_id", nullable = false)
     private AtendenteBalcao atendente;
 
-    @OneToMany(mappedBy = "balcao")
+    @OneToMany(mappedBy = "balcao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties("balcao")
     private List<Chamado> chamados = new ArrayList<>();
-
-
 }

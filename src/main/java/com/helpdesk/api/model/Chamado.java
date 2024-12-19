@@ -1,24 +1,26 @@
 package com.helpdesk.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.helpdesk.api.model.enums.EstadoChamado;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.web.bind.annotation.Mapping;
+
 
 import java.time.LocalDateTime;
 
-
-@Builder
+@Entity
+@Table(name = "tb_chamado")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "tb_chamado")
+@Builder
 public class Chamado {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,27 +28,32 @@ public class Chamado {
     @UpdateTimestamp
     private LocalDateTime dataChamado;
 
-    @UpdateTimestamp
     private LocalDateTime dataResolucao;
 
+    @NotBlank
     private String motivoChamado;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estadoChamado")
     private EstadoChamado estadoChamado;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "balcao_id")
-    @JsonIgnoreProperties("chamado")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "balcao_id", nullable = false)
+    @JsonIgnoreProperties("chamados")
     private Balcao balcao;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    @JsonIgnoreProperties("chamado")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_customerId", nullable = false)
+    @JsonIgnoreProperties("chamados")
     private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "equipamento_id")
-    @JsonIgnoreProperties("chamado")
+    @JoinColumn(name = "equipamento_deviceId", nullable = false)
+    @JsonIgnoreProperties("chamados")
     private Equipamento equipamento;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "horarios_disponiveis_id", nullable = false)
+    @JsonIgnoreProperties("chamados")
+    private HorariosDisponiveis horariosDisponiveis;
 }
