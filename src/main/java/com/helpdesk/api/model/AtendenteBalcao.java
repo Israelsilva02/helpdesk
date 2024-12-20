@@ -20,8 +20,7 @@ public class AtendenteBalcao {
     private Long id;
 
     @NotBlank
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @OneToMany(mappedBy = "atendente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Balcao> balcaoList = new ArrayList<>();
 }

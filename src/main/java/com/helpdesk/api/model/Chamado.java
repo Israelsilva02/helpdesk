@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 
@@ -26,11 +27,14 @@ public class Chamado {
     private Long id;
 
     @UpdateTimestamp
+    @Column(name = "data_chamado", nullable = false)
     private LocalDateTime dataChamado;
-
+    @UpdateTimestamp
+    @Column(name = "data_resolucao", nullable = false)
     private LocalDateTime dataResolucao;
 
     @NotBlank
+    @Column(name = "motivo_chamado")
     private String motivoChamado;
 
     @Enumerated(EnumType.STRING)

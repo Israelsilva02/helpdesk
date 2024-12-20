@@ -23,7 +23,4 @@ public class Balcao {
     @JoinColumn(name = "atendente_id", nullable = false)
     private AtendenteBalcao atendente;
 
-    @OneToMany(mappedBy = "balcao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("balcao")
-    private List<Chamado> chamados = new ArrayList<>();
 }

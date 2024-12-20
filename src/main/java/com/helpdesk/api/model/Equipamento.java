@@ -18,7 +18,8 @@ public class Equipamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long deviceId;
+
+    @Column(name = "serial_number", nullable = false)
     private String serialNumber;
-    @OneToMany(mappedBy = "equipamento")
-    private List<Chamado> chamadoList;
+
 }

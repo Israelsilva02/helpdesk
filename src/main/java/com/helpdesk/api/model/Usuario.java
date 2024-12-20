@@ -25,13 +25,14 @@ public class Usuario {
     private Long customerId;
 
     @NotBlank
+    @Column(name ="nome", nullable = false)
     private String nome;
 
     @Email
     @NotBlank
+    @Column(name = "email", unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Chamado> chamados = new ArrayList<>();
+
 
 }

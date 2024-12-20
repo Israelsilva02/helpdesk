@@ -8,13 +8,12 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ChamadoMapper {
 
-    @Mapping(source = "balcao.id", target = "balcaoId")
-    @Mapping(source = "usuario.customerId", target = "usuarioId")
-    @Mapping(source = "equipamento.deviceId", target = "equipamentoId")
-    ChamadoDTO chamadoToChamadoDTO(Chamado chamado);
-
-    @Mapping(source = "balcaoId", target = "balcao.id")
-    @Mapping(source = "usuarioId", target = "usuario.customerId")
-    @Mapping(source = "equipamentoId", target = "equipamento.deviceId")
+    @Mapping(target = "balcao.id",source = "balcaoId")
+    @Mapping(target = "usuario.customerId",source = "usuarioId")
+    @Mapping( target = "equipamento.deviceId",source = "equipamentoId")
     Chamado chamadoDTOToChamado(ChamadoDTO chamadoDTO);
+
+    @Mapping(target = "balcaoId",source = "balcao.id")
+    @Mapping(target = "usuarioId",source = "usuario.customerId")
+    ChamadoDTO chamadoToChamadoDTO(Chamado chamado);
 }
