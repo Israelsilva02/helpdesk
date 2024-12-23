@@ -2,6 +2,9 @@ package com.helpdesk.api.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.helpdesk.api.enums.EstadoChamado;
+import com.helpdesk.api.model.Balcao;
+import com.helpdesk.api.model.Equipamento;
+import com.helpdesk.api.model.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,18 +18,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ChamadoDTO {
 
-    private Long customerId;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Long id;
     private LocalDateTime dataChamado;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataResolucao;
-
     private String motivoChamado;
     private EstadoChamado estadoChamado;
 
-    private Long balcaoId;
-    private Long usuarioId;
-    private Long equipamentoId;
+    private Balcao balcao;
+    private Usuario usuario;
+    private Equipamento equipamento;
 }

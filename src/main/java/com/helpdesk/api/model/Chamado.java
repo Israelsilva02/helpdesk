@@ -11,7 +11,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
-
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -49,18 +48,4 @@ public class Chamado {
     @JoinColumn(name = "equipamento_id")
     @JsonIgnoreProperties("chamado")
     private Equipamento equipamento;
-
-    public void setBalcao(Balcao balcao) {
-        this.balcao = balcao;
-        if (balcao != null) balcao.addChamado(this);
-    }
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-        if (usuario != null) usuario.addChamado(this);
-    }
-    public void setEquipamento(Equipamento equipamento) {
-        this.equipamento = equipamento;
-        if (equipamento != null) equipamento.addChamado(this);
-    }
-
 }

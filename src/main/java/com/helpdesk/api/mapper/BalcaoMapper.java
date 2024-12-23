@@ -1,39 +1,23 @@
 package com.helpdesk.api.mapper;
 
 import com.helpdesk.api.model.Balcao;
-import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.model.dto.BalcaoDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-public class BalcaoMapper {
+@Mapper(uses = {AtendenteBalcaoMapper.class})
+public interface BalcaoMapper {
 
-    public static List<BalcaoDTO> toDtoBalcao(List<Balcao> balcoes) {
-        return balcoes.stream()
-                .map(BalcaoMapper::toDtoBalcaoDto)
-                .collect(Collectors.toList());
-    }
+    BalcaoMapper INSTANCE = Mappers.getMapper(BalcaoMapper.class);
 
-    public static BalcaoDTO toDtoBalcaoDto(Balcao balcao) {
-        if (Objects.nonNull(balcao)) {
-            return BalcaoDTO.builder()
-                    .id(balcao.getId())
-                    .atendente(AtendenteBalcaoMapper.toDtoAtendenteDto(balcao.getAtendente()))
-                    .build();
-        }
-        return null;
-    }
+    BalcaoDTO toDTO(Balcao balcao);
 
-    public static Balcao toEntityBalcao(BalcaoDTO balcaoDTO) {
-        if (Objects.nonNull(balcaoDTO)) {
-            Balcao balcao = Balcao.builder()
-                    .id(balcaoDTO.getId())
-                    .atendente(AtendenteBalcaoMapper.toEntityAtendente(balcaoDTO.getAtendente()))
-                    .build();
-            return balcao;
-        }
-        return null;
-    }
+    List<Balcao> toEntityList(List<BalcaoDTO> balcaos);
+
+    Balcao toEntity(BalcaoDTO balcaoDTO);
+
+    List<BalcaoDTO> toDTOList(List<Balcao> balcaos);
+
 }

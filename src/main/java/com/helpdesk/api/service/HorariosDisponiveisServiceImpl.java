@@ -21,18 +21,17 @@ public class HorariosDisponiveisServiceImpl {
 
     public List<HorariosDisponiveisDTO> findAll() {
         List<HorariosDisponiveis> horariosDisponiveis = horariosDisponiveisRepository.findAll();
-        return toDtoHorariosDisponiveis(horariosDisponiveis);
+        return INSTANCE.toDTOList(horariosDisponiveis);
     }
 
     public HorariosDisponiveisDTO createHorario(HorariosDisponiveisDTO horariosDisponiveisDTO) {
-        if (horariosDisponiveisDTO.getIdAtendente() != null) {
-            HorariosDisponiveis horariosDisponiveis = toEntityHorariosDisponiveis(horariosDisponiveisDTO);
+        if (horariosDisponiveisDTO.getHorariosDisponiveis() != null) {
+            HorariosDisponiveis horariosDisponiveis = INSTANCE.toEntity(horariosDisponiveisDTO);
             if (!horariosDisponiveisRepository.existsById(horariosDisponiveis.getId())) {
                 HorariosDisponiveis saveHorariosDiponiveis = horariosDisponiveisRepository.save(horariosDisponiveis);
-                return toDtoHorariosDisponiveisDto(saveHorariosDiponiveis);
+                return INSTANCE.toDTO(saveHorariosDiponiveis);
             }
         }
-
-        throw new HorariosDisponiveisException(MessageConstants.O_ATENDENTE_COM_O_ID_CORRESPONDENTE_JA_EXISTE + horariosDisponiveisDTO.getIdAtendente());
+        throw new HorariosDisponiveisException(MessageConstants.O_ATENDENTE_COM_O_ID_CORRESPONDENTE_JA_EXISTE + horariosDisponiveisDTO.getHorariosDisponiveis());
     }
 }

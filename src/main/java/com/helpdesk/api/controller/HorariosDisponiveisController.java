@@ -4,7 +4,7 @@ import com.helpdesk.api.model.dto.HorariosDisponiveisDTO;
 
 import com.helpdesk.api.service.HorariosDisponiveisServiceImpl;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/horariosDisponiveis")
+@RequestMapping("/api/horariosDisponiveis")
 public class HorariosDisponiveisController {
 
     private HorariosDisponiveisServiceImpl horariosDisponiveisServiceImpl;

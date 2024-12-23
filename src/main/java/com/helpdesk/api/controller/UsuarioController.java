@@ -32,9 +32,8 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable("id") Long id) {
-        return usuarioServiceImpl.getUsuarioById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        UsuarioDTO usuario = usuarioServiceImpl.getUsuarioById(id);
+        return ResponseEntity.ok(usuario);
     }
 
     @PutMapping("/{id}")

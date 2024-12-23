@@ -20,16 +20,6 @@ public class Equipamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long deviceId;
     private String serialNumber;
-    private static List<Chamado> chamados = new ArrayList<>();
 
-    public void addChamado(Chamado chamado) {
-        chamados.add(chamado);
-        chamado.setEquipamento(this);
-    }
-
-    public void removeChamado(Chamado chamado) {
-        chamados.remove(chamado);
-        chamado.setEquipamento(null);
-    }
 
 }

@@ -27,13 +27,5 @@ public class Usuario  {
 
     private static List<Chamado> chamados = new ArrayList<>();
 
-    public void addChamado(Chamado chamado) {
-        chamados.add(chamado);
-        chamado.setUsuario(this);
-    }
 
-    public void removeChamado(Chamado chamado) {
-        chamados.remove(chamado);
-        chamado.setUsuario(null);
-    }
 }
