@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface AtendenteBalcaoRepository extends JpaRepository<AtendenteBalcao, Long> {
     Optional<AtendenteBalcao> findByNome(String nomeAtendente);
+
+    Long id(Long id);
 }

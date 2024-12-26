@@ -1,10 +1,7 @@
 package com.helpdesk.api.controller;
 
 import com.helpdesk.api.model.dto.BalcaoDTO;
-import com.helpdesk.api.service.BalcaoServiceImpl;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,38 +9,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/balcoes")
-@RequiredArgsConstructor
-public class BalcaoController {
-
-    private final BalcaoServiceImpl balcaoServiceImpl;
+public interface BalcaoController {
 
     @PostMapping
-    public ResponseEntity<BalcaoDTO> createBalcaoAtendimento(@Valid @RequestBody BalcaoDTO balcaoDTO) {
-        BalcaoDTO createBalcao = balcaoServiceImpl.createBalcaoAtendimento(balcaoDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createBalcao);
-    }
+    ResponseEntity<BalcaoDTO> createBalcaoAtendimento(@Valid @RequestBody BalcaoDTO balcaoDTO);
 
     @GetMapping
-    public ResponseEntity<List<BalcaoDTO>> getAllBalcoes() {
-        List<BalcaoDTO> balcoes = balcaoServiceImpl.getAllBalcoes();
-        return ResponseEntity.ok(balcoes);
-    }
+    ResponseEntity<List<BalcaoDTO>> getAllBalcoes();
 
     @GetMapping("/{id}")
-    public ResponseEntity<BalcaoDTO> getBalcaoById(@PathVariable("id") Long id) {
-        BalcaoDTO balcao = balcaoServiceImpl.getBalcaoById(id);
-        return ResponseEntity.ok(balcao);
-    }
+    ResponseEntity<BalcaoDTO> getBalcaoById(@PathVariable("id") Long id);
 
     @PutMapping("/{id}")
-    public ResponseEntity<BalcaoDTO> updateBalcao(@PathVariable("id") Long id, @Valid @RequestBody BalcaoDTO updatedBalcaoDTO) {
-        BalcaoDTO updatedBalcao = balcaoServiceImpl.updateBalcao(id, updatedBalcaoDTO);
-        return ResponseEntity.ok(updatedBalcao);
-    }
+    ResponseEntity<BalcaoDTO> updateBalcao(@PathVariable("id") Long id, @Valid @RequestBody BalcaoDTO updatedBalcaoDTO);
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBalcao(@PathVariable("id") Long id) {
-        balcaoServiceImpl.deleteBalcao(id);
-        return ResponseEntity.noContent().build();
-    }
+    ResponseEntity<Void> deleteBalcao(@PathVariable("id") Long id);
 }

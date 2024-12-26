@@ -25,11 +25,8 @@ server:
   port: 8090
 
 springdoc:
-  api-docs:
-    path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
     operationsSorter: method
-    disable-swagger-default-url: true
-    use-root-path: true
+
   packagesToScan: com.helpdesk.api.controller

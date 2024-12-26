@@ -24,7 +24,7 @@ public class Balcao {
     private AtendenteBalcao atendente;
 
 
-    private static List<Chamado> chamados = new ArrayList<>();
+    private static List<Chamado> chamadosIds = new ArrayList<>();
 
 
 }

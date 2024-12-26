@@ -12,15 +12,11 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChamadoDTO {
-
+public class VisualizarChamadoDTO {
     private Long id;
     private LocalDateTime dataChamado;
     private LocalDateTime dataResolucao;
     private String motivoChamado;
     private EstadoChamado estadoChamado;
-
-    private Long balcao;
-    private Long usuario;
-    private Long equipamento;
+    private VisualizarBalcaoDTO balcao;
 }
