@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsuarioDTO {
-
+    private Long customerId;
     private String nome;
     private String email;
     private List<Long> chamadoIds;

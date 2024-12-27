@@ -21,12 +21,10 @@ public class HorariosDisponiveis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "atendente_id")
-    private AtendenteBalcao atendenteBalcao;
-
     @UpdateTimestamp
     private LocalDateTime horariosDisponiveis;
 
     private boolean status;
+
+
 }

@@ -1,68 +1,52 @@
 package com.helpdesk.api.service;
 
 import com.helpdesk.api.exception.BalcaoException;
-import com.helpdesk.api.model.AtendenteBalcao;
+import com.helpdesk.api.mapper.BalcaoMapper;
 import com.helpdesk.api.model.Balcao;
 import com.helpdesk.api.model.dto.BalcaoDTO;
-import com.helpdesk.api.mapper.BalcaoMapper;
-import com.helpdesk.api.repository.AtendenteBalcaoRepository;
+import com.helpdesk.api.model.dto.VisualizarBalcaoDTO;
 import com.helpdesk.api.repository.BalcaoRepository;
 import com.helpdesk.api.util.MessageConstants;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class BalcaoServiceImpl {
 
     private final BalcaoRepository balcaoRepository;
-
-    private final AtendenteBalcaoRepository atendenteBalcaoRepository;
+    private final BalcaoMapper balcaoMapper;
 
     public BalcaoDTO createBalcaoAtendimento(BalcaoDTO balcaoDTO) {
-        AtendenteBalcao atendente;
-        if (balcaoDTO.getAtendente() == null || balcaoDTO.getAtendente().getId() == null) {
-            atendente = new AtendenteBalcao();
-            atendente.setNome(balcaoDTO.getAtendente().getNome());
-            atendente = atendenteBalcaoRepository.save(atendente);
-        } else {
-            atendente = atendenteBalcaoRepository.findById(balcaoDTO.getAtendente().getId())
-                    .orElseThrow(() -> new BalcaoException(MessageConstants.ATENDENTE_COM_O_ID_NAO_EXISTE));
-        }
-        if (balcaoRepository.existsById(balcaoDTO.getId())) {
+        if (balcaoDTO.getId() != null && balcaoRepository.existsById(balcaoDTO.getId())) {
             throw new BalcaoException(MessageConstants.BALCAO_COM_ID_JA_EXISTE + balcaoDTO.getId());
         }
-
-        Balcao balcao = BalcaoMapper.toEntityBalcao(balcaoDTO);
-        balcao.setAtendente(atendente);
+        Balcao balcao = balcaoMapper.toEntity(balcaoDTO);
         Balcao savedBalcao = balcaoRepository.save(balcao);
-        return BalcaoMapper.toDtoBalcaoDto(savedBalcao);
+        return balcaoMapper.toDTO(savedBalcao);
     }
 
     public List<BalcaoDTO> getAllBalcoes() {
         List<Balcao> balcoes = balcaoRepository.findAll();
-        return BalcaoMapper.toDtoBalcao(balcoes);
+        return balcaoMapper.toDTOList(balcoes);
     }
 
     public BalcaoDTO getBalcaoById(Long id) {
-        return balcaoRepository.findById(id)
-                .map(BalcaoMapper::toDtoBalcaoDto)
+        Balcao balcao = balcaoRepository.findById(id)
                 .orElseThrow(() -> new BalcaoException(MessageConstants.BALCAO_NAO_ENCONTRADO_COM_ID + id));
-
+        return balcaoMapper.toDTO(balcao);
     }
 
     public BalcaoDTO updateBalcao(Long id, BalcaoDTO updatedBalcaoDTO) {
-        if (!balcaoRepository.existsById(id)) {
-            throw new BalcaoException(MessageConstants.BALCAO_NAO_ENCONTRADO_COM_ID + id);
-        }
-
-        Balcao updatedBalcao = BalcaoMapper.toEntityBalcao(updatedBalcaoDTO);
-        updatedBalcao.setId(id);
-        Balcao savedBalcao = balcaoRepository.save(updatedBalcao);
-        return BalcaoMapper.toDtoBalcaoDto(savedBalcao);
+        Balcao balcao = balcaoRepository.findById(id)
+                .orElseThrow(() -> new BalcaoException(MessageConstants.BALCAO_NAO_ENCONTRADO_COM_ID + id));
+       balcaoMapper.toUpdate(balcao, updatedBalcaoDTO);
+       balcaoRepository.save(balcao);
+       return balcaoMapper.toDTO(balcao);
     }
 
     public void deleteBalcao(Long id) {
@@ -70,5 +54,16 @@ public class BalcaoServiceImpl {
             throw new BalcaoException(MessageConstants.BALCAO_NAO_ENCONTRADO_COM_ID + id);
         }
         balcaoRepository.deleteById(id);
+    }
+
+    public Balcao getBalcao(Long id) {
+        return balcaoRepository.findById(id)
+                .orElseThrow(() -> new BalcaoException(MessageConstants.BALCAO_NAO_ENCONTRADO_COM_ID + id));
+    }
+
+    public VisualizarBalcaoDTO getVisualizarBalcao(Long id) {
+        Balcao balcao = getBalcao(id);
+        return new VisualizarBalcaoDTO(balcao.getId(), balcao.getAtendente().getNome());
+
     }
 }

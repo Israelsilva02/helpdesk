@@ -2,36 +2,23 @@ package com.helpdesk.api.mapper;
 
 import com.helpdesk.api.model.AtendenteBalcao;
 import com.helpdesk.api.model.dto.AtendenteBalcaoDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-public class AtendenteBalcaoMapper {
 
-    public static List<AtendenteBalcaoDTO> toDtoAtendente(List<AtendenteBalcao> atendentes) {
-        return atendentes.stream()
-                .map(AtendenteBalcaoMapper::toDtoAtendenteDto)
-                .collect(Collectors.toList());
-    }
+@Mapper(componentModel = "spring", uses = {BalcaoMapper.class})
+public interface AtendenteBalcaoMapper {
 
-    public static AtendenteBalcaoDTO toDtoAtendenteDto(AtendenteBalcao atendente) {
-        if (Objects.nonNull(atendente)) {
-            return AtendenteBalcaoDTO.builder()
-                    .id(atendente.getId())
-                    .nome(atendente.getNome())
-                    .build();
-        }
-        return null;
-    }
+    AtendenteBalcaoDTO toDTO(AtendenteBalcao atendenteBalcao);
 
-    public static AtendenteBalcao toEntityAtendente(AtendenteBalcaoDTO atendenteDTO) {
-        if (Objects.nonNull(atendenteDTO)) {
-            return AtendenteBalcao.builder()
-                    .id(atendenteDTO.getId())
-                    .nome(atendenteDTO.getNome())
-                    .build();
-        }
-        return null;
-    }
+    List<AtendenteBalcaoDTO> toDTOList(List<AtendenteBalcao> atendenteBalcaos);
+
+    AtendenteBalcao toEntity(AtendenteBalcaoDTO dto);
+
+    List<AtendenteBalcao> toEntityList(List<AtendenteBalcaoDTO> dtos);
+
+    void toUpdate(@MappingTarget AtendenteBalcao atendenteBalcao, AtendenteBalcaoDTO atendenteBalcaoDTO);
 }

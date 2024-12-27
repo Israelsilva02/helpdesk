@@ -1,5 +1,6 @@
 package com.helpdesk.api.model.dto;
 
+import com.helpdesk.api.model.AtendenteBalcao;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.util.List;
 public class BalcaoDTO {
 
     private Long id;
-    private AtendenteBalcaoDTO atendente;
+    private Long atendente;
     private List<Long> chamadoIds;
 
 }

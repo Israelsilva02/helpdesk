@@ -2,35 +2,23 @@ package com.helpdesk.api.mapper;
 
 import com.helpdesk.api.model.Usuario;
 import com.helpdesk.api.model.dto.UsuarioDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-public class UsuarioMapper {
+@Mapper(componentModel = "spring",uses = {ChamadoMapper.class})
+public interface UsuarioMapper {
+    @Mapping(target = "chamadoIds", ignore = true)
+    UsuarioDTO toDTO(Usuario usuario);
 
-    public static List<UsuarioDTO> toDtoUsuario(List<Usuario> usuarios) {
-        return usuarios.stream()
-                .map(entity -> toDtoUsuarioDto(entity))
-                .collect(Collectors.toList());
-    }
+    List<UsuarioDTO> usuariosToUsuarioDTO(List<Usuario> usuarios);
 
-    public static UsuarioDTO toDtoUsuarioDto(Usuario usuario) {
-        if (Objects.nonNull(usuario)) {
-            return UsuarioDTO.builder()
-                    .nome(usuario.getNome())
-                    .email(usuario.getEmail())
-                    .build();
-        } else {
-            return UsuarioDTO.builder().build();
-        }
-    }
+    Usuario toEntity(UsuarioDTO usuarioDTO);
 
-    public static Usuario toEntityUsuario(UsuarioDTO usuarioDTO) {
+    List<Usuario> usuarioDTOsToUsuario(List<UsuarioDTO> usuarioDTOs);
 
-        return Usuario.builder()
-                .nome(usuarioDTO.getNome())
-                .email(usuarioDTO.getEmail())
-                .build();
-    }
+    void toUpdate(@MappingTarget Usuario usuario, UsuarioDTO usuarioDTO);
 }

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class HorariosDisponiveisDTO {
 
-    private Long idAtendente;
+    private Long id;
     private LocalDateTime horariosDisponiveis;
     private boolean status;
 }

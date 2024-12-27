@@ -35,4 +35,5 @@ public class MessageConstants {
     public static final String USUARIO_COM_ESSE_ID_JA_EXISTE = "Usuario com ID %s exists";
     public static final String O_ATENDENTE_COM_O_ID_CORRESPONDENTE_JA_EXISTE = "O atendente com ID %s exists";
     public static final String ATENDENTE_COM_O_ID_NAO_EXISTE = "O Atendente com ID não exists";
+    public static final String EQUIPAMENTO_COM_O_ID_NAO_EXISTE = "Equipamento com ID %s exists";
 }

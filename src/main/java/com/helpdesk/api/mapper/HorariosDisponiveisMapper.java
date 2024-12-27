@@ -1,38 +1,20 @@
 package com.helpdesk.api.mapper;
 
-import com.helpdesk.api.model.AtendenteBalcao;
 import com.helpdesk.api.model.HorariosDisponiveis;
 import com.helpdesk.api.model.dto.HorariosDisponiveisDTO;
+import org.mapstruct.Mapper;
+
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-public class HorariosDisponiveisMapper {
+@Mapper(componentModel = "spring")
+public interface HorariosDisponiveisMapper {
 
-    public static List<HorariosDisponiveisDTO> toDtoHorariosDisponiveis(List<HorariosDisponiveis> horariosDisponiveis) {
-        return horariosDisponiveis.stream()
-                .map(HorariosDisponiveisMapper::toDtoHorariosDisponiveisDto)
-                .collect(Collectors.toList());
-    }
+    HorariosDisponiveisDTO toDTO(HorariosDisponiveis horariosDisponiveis);
 
-    public static HorariosDisponiveisDTO toDtoHorariosDisponiveisDto(HorariosDisponiveis horariosDisponiveis) {
-        if (Objects.nonNull(horariosDisponiveis)) {
-            return HorariosDisponiveisDTO.builder()
-                    .idAtendente(horariosDisponiveis.getAtendenteBalcao().getId())
-                    .horariosDisponiveis(horariosDisponiveis.getHorariosDisponiveis())
-                    .status(horariosDisponiveis.isStatus())
-                    .build();
-        }
-        return null;
-    }
+    List<HorariosDisponiveis> toEntityList(List<HorariosDisponiveisDTO> dtos);
 
-    public static HorariosDisponiveis toEntityHorariosDisponiveis(HorariosDisponiveisDTO horariosDisponiveisDTO) {
-        AtendenteBalcao atendenteBalcao = AtendenteBalcao.builder().id(horariosDisponiveisDTO.getIdAtendente()).build();
+    HorariosDisponiveis toEntity(HorariosDisponiveisDTO dto);
 
-        return HorariosDisponiveis.builder()
-                .atendenteBalcao(atendenteBalcao)
-                .horariosDisponiveis(horariosDisponiveisDTO.getHorariosDisponiveis())
-                .build();
-    }
+    List<HorariosDisponiveisDTO> toDTOList(List<HorariosDisponiveis> dtos);
 }

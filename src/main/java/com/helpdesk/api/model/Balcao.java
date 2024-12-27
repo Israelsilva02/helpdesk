@@ -1,6 +1,6 @@
 package com.helpdesk.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,9 +23,8 @@ public class Balcao {
     @JoinColumn(name = "atendente_id")
     private AtendenteBalcao atendente;
 
-    @OneToMany(mappedBy = "balcao")
-    @JsonIgnoreProperties("balcao")
-    private List<Chamado> chamados = new ArrayList<>();
+
+    private static List<Chamado> chamadosIds = new ArrayList<>();
 
 
 }

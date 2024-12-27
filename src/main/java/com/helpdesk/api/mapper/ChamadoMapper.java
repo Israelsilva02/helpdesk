@@ -1,52 +1,47 @@
 package com.helpdesk.api.mapper;
 
-import com.helpdesk.api.model.Balcao;
+import com.helpdesk.api.enums.EstadoChamado;
 import com.helpdesk.api.model.Chamado;
-import com.helpdesk.api.model.Equipamento;
-import com.helpdesk.api.model.Usuario;
 import com.helpdesk.api.model.dto.ChamadoDTO;
+import com.helpdesk.api.model.dto.VisualizarBalcaoDTO;
+import com.helpdesk.api.model.dto.VisualizarChamadoDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-public class ChamadoMapper {
+@Mapper(componentModel = "spring", imports = {EstadoChamado.class})
+public interface ChamadoMapper {
+    @Mapping(target = "balcao", ignore = true)
+    @Mapping(target = "usuario", ignore = true)
+    @Mapping(target = "equipamento", ignore = true)
+    @Mapping(target = "horariosDisponiveis", ignore = true)
+    ChamadoDTO toDTO(Chamado chamado);
 
-    public static List<ChamadoDTO> toDtoChamado(List<Chamado> chamados) {
-        return chamados.stream()
-                .map(ChamadoMapper::toDtoChamadoDto)
-                .collect(Collectors.toList());
-    }
+    List<ChamadoDTO> toDTOList(List<Chamado> chamados);
 
-    public static ChamadoDTO toDtoChamadoDto(Chamado chamado) {
-        if (Objects.nonNull(chamado)) {
-            return ChamadoDTO.builder()
-                    .balcaoId(chamado.getBalcao().getId())
-                    .usuarioId(chamado.getUsuario().getCustomerId())
-                    .equipamentoId(chamado.getEquipamento().getDeviceId())
-                    .dataChamado(chamado.getDataChamado())
-                    .dataResolucao(chamado.getDataResolucao())
-                    .estadoChamado(chamado.getEstadoChamado())
-                    .motivoChamado(chamado.getMotivoChamado())
-                    .build();
-        }
-        return null;
-    }
-    public static Chamado toEntityChamado(ChamadoDTO chamadoDTO) {
-        Balcao balcao = Balcao.builder().id(chamadoDTO.getBalcaoId()).build();
-        Usuario usuario= Usuario.builder().customerId(chamadoDTO.getUsuarioId()).build();
-        Equipamento equipamento = Equipamento.builder().deviceId(chamadoDTO.getEquipamentoId()).build();
+    @Mapping(target = "balcao", ignore = true)
+    @Mapping(target = "usuario", ignore = true)
+    @Mapping(target = "equipamento", ignore = true)
+    @Mapping(target = "horariosDisponiveis", ignore = true)
+    @Mapping(target = "estadoChamado", expression = "java(EstadoChamado.ABERTO)")
+    Chamado toEntity(ChamadoDTO chamadoDTO);
 
-        return Chamado.builder()
-                .balcao(balcao)
-                .usuario(usuario)
-                .equipamento(equipamento)
-                .dataChamado(chamadoDTO.getDataChamado())
-                .dataResolucao(chamadoDTO.getDataResolucao())
-                .estadoChamado(chamadoDTO.getEstadoChamado())
-                .motivoChamado(chamadoDTO.getMotivoChamado())
-                .build();
+    List<Chamado> toEntityList(List<ChamadoDTO> chamadoDTOS);
 
+    @Mapping(target = "balcao", ignore = true)
+    @Mapping(target = "usuario", ignore = true)
+    @Mapping(target = "equipamento", ignore = true)
+    @Mapping(target = "horariosDisponiveis", ignore = true)
+    void toUpdate(@MappingTarget Chamado chamado, ChamadoDTO chamadoDTO);
 
-    }
+    @Mapping(target = "id", source = "chamado.id")
+    @Mapping(target = "dataChamado", source = "chamado.dataChamado")
+    @Mapping(target = "dataResolucao", source = "chamado.dataResolucao")
+    @Mapping(target = "motivoChamado", source = "chamado.motivoChamado")
+    @Mapping(target = "estadoChamado", source = "chamado.estadoChamado")
+    @Mapping(target = "balcao.id", source = "visualizarBalcaoDTO.id")
+    @Mapping(target = "balcao.atendente", source = "visualizarBalcaoDTO.atendente")
+    VisualizarChamadoDTO toDTOVisualizar(Chamado chamado, VisualizarBalcaoDTO visualizarBalcaoDTO);
 }

@@ -1,42 +1,29 @@
 package com.helpdesk.api.mapper;
 
 import com.helpdesk.api.model.Balcao;
-import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.model.dto.BalcaoDTO;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
+
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-public class BalcaoMapper {
+@Mapper(componentModel = "spring",uses = {AtendenteBalcaoMapper.class})
+public interface BalcaoMapper {
+    @Mapping(target = "atendente", source = "atendente.id")
+    BalcaoDTO toDTO(Balcao balcao);
 
-    public static List<BalcaoDTO> toDtoBalcao(List<Balcao> balcoes) {
-        return balcoes.stream()
-                .map(BalcaoMapper::toDtoBalcaoDto)
-                .collect(Collectors.toList());
-    }
+    List<Balcao> toEntityList(List<BalcaoDTO> balcaos);
 
-    public static BalcaoDTO toDtoBalcaoDto(Balcao balcao) {
-        if (Objects.nonNull(balcao)) {
-            return BalcaoDTO.builder()
-                    .id(balcao.getId())
-                    .atendente(AtendenteBalcaoMapper.toDtoAtendenteDto(balcao.getAtendente()))
-                    .chamadoIds(balcao.getChamados().stream()
-                            .map(Chamado::getId)
-                            .collect(Collectors.toList()))
-                    .build();
-        }
-        return null;
-    }
+    @Mapping(target = "atendente", ignore = true)
+    Balcao toEntity(BalcaoDTO balcaoDTO);
 
-    public static Balcao toEntityBalcao(BalcaoDTO balcaoDTO) {
-        if (Objects.nonNull(balcaoDTO)) {
-            Balcao balcao = Balcao.builder()
-                    .id(balcaoDTO.getId())
-                    .atendente(AtendenteBalcaoMapper.toEntityAtendente(balcaoDTO.getAtendente()))
-                    .build();
-            return balcao;
-        }
-        return null;
-    }
+    List<BalcaoDTO> toDTOList(List<Balcao> balcaos);
+
+    @Mapping(target = "atendente", ignore = true)
+    void toUpdate(@MappingTarget Balcao balcao, BalcaoDTO balcaoDTO);
+
+//    VisualizarBalcaoDTO toDTOVisualizar(Balcao balcao, VisualizarBalcaoDTO visualizarBalcaoDTO);
 }

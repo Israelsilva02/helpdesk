@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -19,6 +20,6 @@ public class Equipamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long deviceId;
     private String serialNumber;
-    @OneToMany(mappedBy = "equipamento")
-    private List<Chamado> chamadoList;
+
+
 }
