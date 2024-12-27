@@ -16,6 +16,7 @@ public interface ChamadoMapper {
     @Mapping(target = "balcao", ignore = true)
     @Mapping(target = "usuario", ignore = true)
     @Mapping(target = "equipamento", ignore = true)
+    @Mapping(target = "horariosDisponiveis", ignore = true)
     ChamadoDTO toDTO(Chamado chamado);
 
     List<ChamadoDTO> toDTOList(List<Chamado> chamados);
@@ -23,6 +24,7 @@ public interface ChamadoMapper {
     @Mapping(target = "balcao", ignore = true)
     @Mapping(target = "usuario", ignore = true)
     @Mapping(target = "equipamento", ignore = true)
+    @Mapping(target = "horariosDisponiveis", ignore = true)
     @Mapping(target = "estadoChamado", expression = "java(EstadoChamado.ABERTO)")
     Chamado toEntity(ChamadoDTO chamadoDTO);
 
@@ -31,6 +33,7 @@ public interface ChamadoMapper {
     @Mapping(target = "balcao", ignore = true)
     @Mapping(target = "usuario", ignore = true)
     @Mapping(target = "equipamento", ignore = true)
+    @Mapping(target = "horariosDisponiveis", ignore = true)
     void toUpdate(@MappingTarget Chamado chamado, ChamadoDTO chamadoDTO);
 
     @Mapping(target = "id", source = "chamado.id")

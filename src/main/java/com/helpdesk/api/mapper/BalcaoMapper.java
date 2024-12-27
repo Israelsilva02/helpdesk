@@ -2,7 +2,7 @@ package com.helpdesk.api.mapper;
 
 import com.helpdesk.api.model.Balcao;
 import com.helpdesk.api.model.dto.BalcaoDTO;
-import com.helpdesk.api.model.dto.VisualizarBalcaoDTO;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

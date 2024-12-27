@@ -5,12 +5,12 @@ import com.helpdesk.api.controller.AtendenteBalcaoController;
 import com.helpdesk.api.model.dto.AtendenteBalcaoDTO;
 import com.helpdesk.api.service.AtendenteBalcaoServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@ApiController(path = "v1/atendentes", name = "AtendenteBalcao", description = "API responsavel por gerenciar os atendentes do balcão")
+@RestController
 @RequiredArgsConstructor
 public class AtendenteBalcaoControllerImpl implements AtendenteBalcaoController {
 
@@ -18,7 +18,7 @@ public class AtendenteBalcaoControllerImpl implements AtendenteBalcaoController 
 
     @Override
     public ResponseEntity<AtendenteBalcaoDTO> create(AtendenteBalcaoDTO atendenteBalcaoDTO) {
-      return ResponseEntity.ok(atendenteService.createAtendente(atendenteBalcaoDTO));
+        return ResponseEntity.ok(atendenteService.createAtendente(atendenteBalcaoDTO));
     }
 
     @Override
@@ -36,7 +36,7 @@ public class AtendenteBalcaoControllerImpl implements AtendenteBalcaoController 
     @Override
     public ResponseEntity<AtendenteBalcaoDTO> updateAtendente(Long id, AtendenteBalcaoDTO atendenteDTO) {
         AtendenteBalcaoDTO atualizado = atendenteService.updateAtendente(id, atendenteDTO);
-        return  ResponseEntity.ok(atualizado);
+        return ResponseEntity.ok(atualizado);
     }
 
     @Override

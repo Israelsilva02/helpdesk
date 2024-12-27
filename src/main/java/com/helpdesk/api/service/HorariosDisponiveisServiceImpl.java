@@ -26,13 +26,9 @@ public class HorariosDisponiveisServiceImpl {
     }
 
     public HorariosDisponiveisDTO createHorario(HorariosDisponiveisDTO horariosDisponiveisDTO) {
-        if (horariosDisponiveisDTO.getHorariosDisponiveis() != null) {
-            HorariosDisponiveis horariosDisponiveis = horariosDisponiveisMapper.toEntity(horariosDisponiveisDTO);
-            if (!horariosDisponiveisRepository.existsById(horariosDisponiveis.getId())) {
-                HorariosDisponiveis saveHorariosDiponiveis = horariosDisponiveisRepository.save(horariosDisponiveis);
-                return horariosDisponiveisMapper.toDTO(saveHorariosDiponiveis);
-            }
-        }
-        throw new HorariosDisponiveisException(MessageConstants.O_ATENDENTE_COM_O_ID_CORRESPONDENTE_JA_EXISTE + horariosDisponiveisDTO.getHorariosDisponiveis());
+        HorariosDisponiveis horariosDisponiveis = horariosDisponiveisMapper.toEntity(horariosDisponiveisDTO);
+        HorariosDisponiveis horariosDisponiveisSave = horariosDisponiveisRepository.save(horariosDisponiveis);
+        return horariosDisponiveisMapper.toDTO(horariosDisponiveisSave);
     }
+
 }

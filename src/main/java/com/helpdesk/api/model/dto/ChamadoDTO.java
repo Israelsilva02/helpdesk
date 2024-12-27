@@ -23,4 +23,5 @@ public class ChamadoDTO {
     private Long balcao;
     private Long usuario;
     private Long equipamento;
+    private Long horariosDisponiveis;
 }

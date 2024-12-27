@@ -48,4 +48,8 @@ public class Chamado {
     @JoinColumn(name = "equipamento_id")
     @JsonIgnoreProperties("chamado")
     private Equipamento equipamento;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "horarios_disponiveis_id")
+    private HorariosDisponiveis horariosDisponiveis;
 }

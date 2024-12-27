@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
-
-@ApiController(path = "v1/atendentes", name = "AtendenteBalcao", description = "API responsavel por gerenciar os atendentes do balcão")
+@RestController
+@RequestMapping("/api/atendentes")
 public interface AtendenteBalcaoController {
 
     @PostMapping("/cadastrar")

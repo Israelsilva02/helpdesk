@@ -4,11 +4,11 @@ import com.helpdesk.api.model.HorariosDisponiveis;
 import com.helpdesk.api.model.dto.HorariosDisponiveisDTO;
 import org.mapstruct.Mapper;
 
+
 import java.util.List;
 
-@Mapper(componentModel = "spring",uses = {ChamadoMapper.class})
+@Mapper(componentModel = "spring")
 public interface HorariosDisponiveisMapper {
-
 
     HorariosDisponiveisDTO toDTO(HorariosDisponiveis horariosDisponiveis);
 
