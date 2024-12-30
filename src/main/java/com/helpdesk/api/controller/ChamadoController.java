@@ -16,6 +16,9 @@ public interface ChamadoController {
     @PostMapping
     ResponseEntity<VisualizarChamadoDTO> createChamado(@Valid @RequestBody ChamadoDTO chamadoDTO);
 
+//    @PostMapping("/teste")
+//    ResponseEntity<String>abrirChamado(@Valid @RequestBody ChamadoDTO chamadoDTO);
+
     @GetMapping
     ResponseEntity<List<ChamadoDTO>> getAllChamados();
 

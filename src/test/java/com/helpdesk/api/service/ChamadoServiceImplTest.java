@@ -52,11 +52,7 @@ class ChamadoServiceImplTest {
     void testCreateChamado() {
         when(chamadoMapper.toEntity(chamadoDTO)).thenReturn(chamado);
         when(chamadoRepository.save(chamado)).thenReturn(chamado);
-
-
         VisualizarChamadoDTO result = chamadoService.createChamado(chamadoDTO);
-
-
         verify(chamadoRepository).save(chamado);
     }
 

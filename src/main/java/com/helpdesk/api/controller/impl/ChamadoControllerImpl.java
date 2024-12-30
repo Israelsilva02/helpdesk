@@ -1,6 +1,7 @@
 package com.helpdesk.api.controller.impl;
 
 import com.helpdesk.api.controller.ChamadoController;
+import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.model.dto.ChamadoDTO;
 import com.helpdesk.api.enums.EstadoChamado;
 import com.helpdesk.api.model.dto.VisualizarChamadoDTO;
@@ -25,6 +26,12 @@ public class ChamadoControllerImpl implements ChamadoController {
         VisualizarChamadoDTO createdChamado = chamadoServiceImpl.createChamado(chamadoDTO);
         return ResponseEntity.ok(createdChamado);
     }
+
+//    @Override
+//    public ResponseEntity<String> abrirChamado(ChamadoDTO chamadoDTO) {
+//        String chamado = chamadoServiceImpl.abrirChamado(chamadoDTO);
+//        return ResponseEntity.ok(chamado);
+//    }
 
     @Override
     public ResponseEntity<List<ChamadoDTO>> getAllChamados() {
