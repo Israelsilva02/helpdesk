@@ -27,12 +27,6 @@ public class ChamadoControllerImpl implements ChamadoController {
         return ResponseEntity.ok(createdChamado);
     }
 
-//    @Override
-//    public ResponseEntity<String> abrirChamado(ChamadoDTO chamadoDTO) {
-//        String chamado = chamadoServiceImpl.abrirChamado(chamadoDTO);
-//        return ResponseEntity.ok(chamado);
-//    }
-
     @Override
     public ResponseEntity<List<ChamadoDTO>> getAllChamados() {
         List<ChamadoDTO> chamados = chamadoServiceImpl.getAllChamados();

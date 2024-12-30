@@ -47,15 +47,6 @@ public class ChamadoServiceImpl {
         return chamadoMapper.toDTOVisualizar(savedChamado, visualizarBalcaoDTO);
     }
 
-//    public String abrirChamado(ChamadoDTO chamadoDTO) {
-//        try {
-//            chamadoRequestProducer.integrar(chamadoDTO);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(MessageConstants.ERRO_AO_ABRIR_CHAMADO);
-//        }
-//        return "Abrindo chamado ....";
-//    }
-
     public List<ChamadoDTO> getAllChamados() {
         List<Chamado> chamados = chamadoRepository.findAll();
         return chamadoMapper.toDTOList(chamados);

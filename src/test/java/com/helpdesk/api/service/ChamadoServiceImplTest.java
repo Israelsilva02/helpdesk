@@ -1,11 +1,14 @@
 package com.helpdesk.api.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.helpdesk.api.exception.ChamadoException;
 import com.helpdesk.api.mapper.ChamadoMapper;
 import com.helpdesk.api.model.Chamado;
 import com.helpdesk.api.enums.EstadoChamado;
 import com.helpdesk.api.model.dto.ChamadoDTO;
+import com.helpdesk.api.model.dto.VisualizarBalcaoDTO;
 import com.helpdesk.api.model.dto.VisualizarChamadoDTO;
+import com.helpdesk.api.producer.ChamadoRequestProducer;
 import com.helpdesk.api.repository.ChamadoRepository;
 import com.helpdesk.api.util.MessageConstants;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,12 +22,18 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ChamadoServiceImplTest {
 
+    @Mock
+    private ChamadoRequestProducer chamadoRequestProducer;
+
+    @Mock
+    private VisualizarBalcaoDTO visualizarBalcaoDTO;
     @Mock
     private ChamadoRepository chamadoRepository;
 
@@ -49,11 +58,23 @@ class ChamadoServiceImplTest {
     }
 
     @Test
-    void testCreateChamado() {
+    void testCreateChamado() throws JsonProcessingException {
+        doNothing().when(chamadoRequestProducer).integrar(any(ChamadoDTO.class));
+        when(balcaoService.getVisualizarBalcao(chamadoDTO.getBalcao())).thenReturn(visualizarBalcaoDTO);
         when(chamadoMapper.toEntity(chamadoDTO)).thenReturn(chamado);
         when(chamadoRepository.save(chamado)).thenReturn(chamado);
+        when(chamadoMapper.toDTOVisualizar(chamado, visualizarBalcaoDTO)).thenReturn(visualizarChamadoDTO);
+
+
         VisualizarChamadoDTO result = chamadoService.createChamado(chamadoDTO);
+
+
+        assertEquals(visualizarChamadoDTO, result);
+        verify(chamadoRequestProducer).integrar(chamadoDTO);
+        verify(balcaoService).getVisualizarBalcao(chamadoDTO.getBalcao());
+        verify(chamadoMapper).toEntity(chamadoDTO);
         verify(chamadoRepository).save(chamado);
+        verify(chamadoMapper).toDTOVisualizar(chamado, visualizarBalcaoDTO);
     }
 
     @Test
